@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Probar la voz</title>
+  <style>
+    body { font-family: "Arial Rounded MT Bold", system-ui, sans-serif; background: linear-gradient(160deg, #7dd3fc, #c4b5fd, #f9a8d4); min-height: 100vh; margin: 0; padding: 20px; color: #3b2a5a; }
+    .caja { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 24px; padding: 20px 24px; box-shadow: 0 8px 0 rgba(0,0,0,.12); }
+    h1 { margin-top: 0; }
+    button, a.btn { font: inherit; border: none; border-radius: 14px; padding: 10px 16px; cursor: pointer; background: #8b5cf6; color: #fff; text-decoration: none; display: inline-block; }
+    .grande { font-size: 22px; padding: 14px 24px; background: #22c55e; }
+    .voz { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+    .voz .nom { flex: 1; min-width: 180px; }
+    .voz.usada { background: #ecfccb; border-radius: 10px; padding-left: 8px; }
+    .chico { font-size: 13px; color: #666; }
+    #estado { margin: 14px 0; padding: 10px 14px; border-radius: 12px; background: #f1f5f9; }
+    .ok { background: #dcfce7 !important; } .mal { background: #fee2e2 !important; }
+    li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="caja">
+    <h1>🗣️ Probar la voz</h1>
+    <p><button class="grande" id="probar">▶ Probar la voz</button> &nbsp; <a class="btn" href="index.html">🏠 Volver a los juegos</a></p>
+    <div id="estado">Tocá “Probar la voz”.</div>
+
+    <h3>Voces en castellano de este dispositivo</h3>
+    <div id="lista" class="chico">Cargando…</div>
+
+    <h3>Si no se escucha nada</h3>
+    <ul>
+      <li>Fijate que el <b>volumen</b> del celular o la compu esté alto y que la pestaña no esté silenciada.</li>
+      <li><b>Android:</b> Ajustes → buscá “Salida de texto a voz” → motor <b>“Servicios de voz de Google”</b> → idioma <b>Español</b> → descargá la voz. Si no está, instalá “Servicios de voz de Google” desde Play Store.</li>
+      <li><b>Mac:</b> Configuración del Sistema → Accesibilidad → Contenido leído → Voz del sistema → Administrar voces → agregá una voz en español (por ejemplo, Paulina o Mónica). Después cerrá y abrí Chrome.</li>
+      <li><b>Windows:</b> Configuración → Hora e idioma → Voz → Agregar voces → Español.</li>
+      <li>Si lo instalaste como app, cerrala del todo y volvé a abrirla para que se actualice.</li>
+    </ul>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/sonido.js"></script>
+  <script src="js/voz.js"></script>
+  <script>
+    const estado = document.getElementById('estado');
+    const lista = document.getElementById('lista');
+    const s = window.speechSynthesis;
+
+    function mostrar(txt, clase) { estado.textContent = txt; estado.className = clase || ''; }
+
+    function dibujarLista() {
+      if (!Voz.soportada) { lista.textContent = 'Este navegador no tiene voz. Probá con Chrome.'; return; }
+      const vs = Voz.lista();
+      const total = s.getVoices().length;
+      if (!vs.length) {
+        lista.innerHTML = total
+          ? `Hay ${total} voces, pero ninguna en castellano. Seguí los pasos de abajo para agregar una.`
+          : 'Todavía no aparecen voces (a veces tardan unos segundos). Si sigue así, seguí los pasos de abajo.';
+        return;
+      }
+      const actual = Voz.actual();
+      lista.innerHTML = '';
+      vs.forEach(v => {
+        const d = document.createElement('div');
+        d.className = 'voz' + (actual && actual.voiceURI === v.voiceURI ? ' usada' : '');
+        d.innerHTML = `<span class="nom"><b>${v.name}</b> <span class="chico">${v.lang}${v.localService ? '' : ' · necesita internet'}</span></span>`;
+        const p = document.createElement('button'); p.textContent = '🔊 Probar';
+        p.onclick = () => probarCon(v);
+        const u = document.createElement('button'); u.textContent = actual && actual.voiceURI === v.voiceURI ? '✓ En uso' : 'Usar esta';
+        u.style.background = '#22c55e';
+        u.onclick = () => { Voz.usar(v.voiceURI); dibujarLista(); Voz.decir('¡Listo! Ahora hablo con esta voz.'); };
+        d.append(p, u);
+        lista.appendChild(d);
+      });
+    }
+
+    function probarCon(v) {
+      s.cancel();
+      const u = new SpeechSynthesisUtterance(`¡Hola, ${CONFIG.nombre}! ¿Jugamos?`);
+      u.voice = v; u.lang = v.lang; u.rate = CONFIG.vozVelocidad; u.pitch = CONFIG.vozTono;
+      seguir(u);
+      setTimeout(() => s.speak(u), 120);
+    }
+
+    function seguir(u) {
+      let empezo = false;
+      window._u = u; // que Chrome no la pierda
+      u.onstart = () => { empezo = true; mostrar('🔊 Hablando… ¿se escucha? Si no, subí el volumen.', 'ok'); };
+      u.onend = () => { if (empezo) mostrar('✅ La voz funciona. Si no la escuchaste, revisá el volumen.', 'ok'); };
+      u.onerror = e => mostrar('❌ Error de voz: ' + e.error + '. Probá con otra voz de la lista.', 'mal');
+      setTimeout(() => { if (!empezo) mostrar('❌ La voz no arrancó. Probá con otra voz de la lista o seguí los pasos de abajo.', 'mal'); }, 4000);
+    }
+
+    document.getElementById('probar').onclick = () => {
+      if (!Voz.soportada) { mostrar('❌ Este navegador no tiene voz. Probá con Chrome.', 'mal'); return; }
+      const v = Voz.actual();
+      if (v) probarCon(v);
+      else {
+        s.cancel();
+        const u = new SpeechSynthesisUtterance(`¡Hola, ${CONFIG.nombre}! ¿Jugamos?`);
+        u.lang = 'es-ES';
+        seguir(u);
+        setTimeout(() => s.speak(u), 120);
+      }
+    };
+
+    dibujarLista();
+    if (s) s.addEventListener('voiceschanged', dibujarLista);
+    setTimeout(dibujarLista, 1500);
+  </script>
+</body>
+</html>

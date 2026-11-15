@@ -189,6 +189,8 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .btn-jugar { font-size: clamp(30px, 7vw, 48px); font-weight: 900; color: #fff; background: #22c55e; padding: 18px 46px; border-radius: 60px; box-shadow: 0 10px 0 #15803d; animation: latido 1.4s ease-in-out infinite; }
 .btn-jugar:active { transform: translateY(6px); box-shadow: 0 4px 0 #15803d; }
 
+.link-voz { display: block; margin-top: 34px; color: #fff; font-size: 18px; opacity: .85; }
+
 #confeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 95; }
 
 /* ===== Animaciones ===== */

@@ -29,10 +29,15 @@ LOS JUEGOS
   9. Dale de comer . arrastrar la comida correcta hasta el animal
  10. Pintar ........ dibujo libre, pincel arcoíris y sellos
 
+SI NO SE ESCUCHA LA VOZ
+  En la pantalla de inicio está el link "Probar la voz" (voz.html): muestra las voces
+  en castellano del dispositivo, permite probarlas y elegir cuál usar, y explica
+  cómo instalar una voz en Android, Mac o Windows.
+
 PERSONALIZAR
   - Nombre del nene, velocidad y tono de la voz: js/config.js
   - Cada juego está en su propio archivo: js/juegos/
   - Las estrellas ganadas se guardan en el navegador.
   - Si cambiás archivos y ya está instalado en el celular, subí el número de versión
-    en sw.js (juegos-maxi-v1 → v2) para que se actualice.
+    en sw.js (juegos-maxi-v2 → v3) para que se actualice.
 ```

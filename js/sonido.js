@@ -115,33 +115,3 @@ const Sonido = (() => {
     animal(id) { animales[id] && animales[id](); }
   };
 })();
-
-// Voz en castellano (usa la voz del sistema: celular, tablet o compu)
-const Voz = (() => {
-  const s = window.speechSynthesis;
-  let voz = null;
-  function elegir() {
-    if (!s) return;
-    const vs = s.getVoices();
-    const pref = ['es-ar', 'es-419', 'es-us', 'es-mx', 'es-es'];
-    for (const p of pref) {
-      const v = vs.find(v => v.lang.replace('_', '-').toLowerCase().startsWith(p));
-      if (v) { voz = v; return; }
-    }
-    voz = vs.find(v => v.lang.toLowerCase().startsWith('es')) || null;
-  }
-  if (s) { elegir(); s.onvoiceschanged = elegir; }
-  return {
-    decir(texto) {
-      if (!s || Sonido.silencio() || !texto) return;
-      s.cancel();
-      const u = new SpeechSynthesisUtterance(texto);
-      u.lang = voz ? voz.lang : 'es-AR';
-      if (voz) u.voice = voz;
-      u.rate = CONFIG.vozVelocidad;
-      u.pitch = CONFIG.vozTono;
-      setTimeout(() => s.speak(u), 60);
-    },
-    callar() { s && s.cancel(); }
-  };
-})();

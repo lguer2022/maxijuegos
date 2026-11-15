@@ -1,9 +1,9 @@
-// Guarda todos los archivos para que la app funcione sin internet.
-// Si cambiás algo, subí el número de versión para que el celular descargue lo nuevo.
-const CACHE = 'juegos-maxi-v1';
+// Permite usar la app sin internet.
+// Primero intenta bajar la versión nueva; si no hay internet, usa la guardada.
+const CACHE = 'juegos-maxi-v2';
 const ARCHIVOS = [
-  './', 'index.html', 'manifest.json', 'css/estilos.css',
-  'js/config.js', 'js/sonido.js', 'js/app.js',
+  './', 'index.html', 'voz.html', 'manifest.json', 'css/estilos.css',
+  'js/config.js', 'js/sonido.js', 'js/voz.js', 'js/app.js',
   'js/juegos/globos.js', 'js/juegos/animales.js', 'js/juegos/piano.js', 'js/juegos/colores.js',
   'js/juegos/formas.js', 'js/juegos/memotest.js', 'js/juegos/contar.js', 'js/juegos/sombras.js',
   'js/juegos/comida.js', 'js/juegos/pintar.js',
@@ -21,5 +21,13 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request)
+      .then(r => {
+        if (r.ok) { const copia = r.clone(); caches.open(CACHE).then(c => c.put(e.request, copia)); }
+        return r;
+      })
+      .catch(() => caches.match(e.request))
+  );
 });

@@ -188,11 +188,12 @@ const App = (() => {
     actualizarBotonSonido();
 
     btnCasa.addEventListener('click', () => { Sonido.click(); cerrar(false); });
-    btnSonido.addEventListener('click', () => { Sonido.alternar(); if (Sonido.silencio()) Voz.callar(); else Sonido.click(); actualizarBotonSonido(); });
+    btnSonido.addEventListener('click', () => { Sonido.alternar(); if (Sonido.silencio()) Voz.callar(); else { Sonido.click(); Voz.desbloquear(); } actualizarBotonSonido(); });
     addEventListener('popstate', () => { if (actual) cerrar(true); });
 
     $('#btn-jugar').addEventListener('click', () => {
       Sonido.desbloquear();
+      Voz.desbloquear();
       Sonido.fanfarria();
       Voz.decir(`¡Hola, ${CONFIG.nombre}! ¿A qué querés jugar?`);
       const ini = $('#inicio');
