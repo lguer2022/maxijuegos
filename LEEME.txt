@@ -1,7 +1,7 @@
 LOS JUEGOS DE MAXI
 ==================
 
-10 juegos para chicos de 3 a 5 años. Funciona en la compu, en tablets y en celulares Android.
+16 juegos para chicos de 3 a 5 años. Funciona en la compu, en tablets y en celulares Android.
 Todos los sonidos se generan con código y la voz usa la del sistema (en castellano).
 
 CÓMO JUGAR EN LA COMPU
@@ -25,6 +25,12 @@ LOS JUEGOS
   8. Sombras ....... encontrar la sombra de cada cosa
   9. Dale de comer . arrastrar la comida correcta hasta el animal
  10. Pintar ........ dibujo libre, pincel arcoíris y sellos
+ 11. Autos ......... manejar en una pista: mantener apretado el botón verde
+ 12. Dino saltarín . tocar la pantalla para saltar los cactus
+ 13. Burbujas ...... tirar burbujas y juntar 3 del mismo color
+ 14. Vocales ....... ¿con qué letra empieza? (A E I O U)
+ 15. ¿Qué sigue? ... completar series y patrones
+ 16. Ordenar ....... llevar cada cosa a su canasta (animales, frutas...)
 
 SI NO SE ESCUCHA LA VOZ
   En la pantalla de inicio está el link "Probar la voz" (voz.html): muestra las voces
@@ -36,4 +42,4 @@ PERSONALIZAR
   - Cada juego está en su propio archivo: js/juegos/
   - Las estrellas ganadas se guardan en el navegador.
   - Si cambiás archivos y ya está instalado en el celular, subí el número de versión
-    en sw.js (juegos-maxi-v3 → v4) para que se actualice.
+    en sw.js (juegos-maxi-v4 → v5) para que se actualice.

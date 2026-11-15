@@ -171,6 +171,44 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .herr.elegida { transform: translateY(-8px) scale(1.08); box-shadow: 0 0 0 5px #7c3aed, 0 8px 0 rgba(0,0,0,.15); }
 .gota { width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 -5px 0 rgba(0,0,0,.2), inset 0 5px 0 rgba(255,255,255,.35); }
 
+/* ===== Juegos con canvas ===== */
+.lienzo-juego { position: absolute; inset: 0; display: block; touch-action: none; }
+.capa { position: absolute; z-index: 3; }
+.btn-juego { background: #fff; border-radius: 50%; width: 76px; height: 76px; font-size: 38px; box-shadow: 0 6px 0 rgba(0,0,0,.18); display: flex; align-items: center; justify-content: center; touch-action: none; }
+.btn-juego:active, .btn-juego.apretado { transform: translateY(4px) scale(.95); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.pedal { width: 120px; height: 120px; font-size: 26px; font-weight: 900; color: #fff; background: #22c55e; box-shadow: 0 8px 0 #15803d; flex-direction: column; line-height: 1.1; }
+.pedal span { font-size: 44px; }
+.pedal.apretado { box-shadow: 0 3px 0 #15803d; }
+.elegir-auto { top: 12px; left: 12px; display: flex; gap: 8px; }
+.elegir-auto button { width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,.85); font-size: 30px; box-shadow: 0 4px 0 rgba(0,0,0,.15); }
+.elegir-auto button.elegida { background: #fde047; box-shadow: 0 0 0 4px #fff, 0 4px 0 rgba(0,0,0,.15); }
+
+/* ===== Vocales ===== */
+.dibujo { text-align: center; font-size: clamp(90px, 22vmin, 170px); line-height: 1.1; }
+.dibujo.entra { animation: aparecer .5s; }
+.palabra { text-align: center; font-size: clamp(34px, 8vmin, 64px); font-weight: 900; letter-spacing: 6px; color: #3b2a5a; }
+.palabra .hueco { display: inline-block; min-width: 1em; border-bottom: 6px solid #f43f5e; color: #f43f5e; }
+.palabra .hueco.lleno { border-color: transparent; animation: festejoBoton .7s; }
+.letra { width: clamp(76px, 17vmin, 130px); aspect-ratio: 1; border-radius: 26px; background: var(--c); color: #fff; font-size: clamp(44px, 10vmin, 76px); font-weight: 900; box-shadow: 0 7px 0 rgba(0,0,0,.18); text-shadow: 0 3px 0 rgba(0,0,0,.2); animation: aparecer .4s backwards; }
+.juego-vocales .opciones, .juego-quesigue .opciones { height: auto; }
+
+/* ===== ¿Qué sigue? ===== */
+.serie { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(4px, 1.5vw, 14px); padding: 24px 10px 10px; }
+.serie .item { width: clamp(58px, 13vmin, 110px); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.75); border-radius: 22px; font-size: clamp(38px, 9vmin, 74px); box-shadow: 0 5px 0 rgba(0,0,0,.08); animation: aparecer .4s backwards; }
+.serie .item.hueco { background: #fff; border: 5px dashed #14b8a6; color: #14b8a6; font-weight: 900; }
+.serie .item.canta { animation: festejoBoton .5s; }
+.opcion-item { width: clamp(90px, 20vmin, 150px); aspect-ratio: 1; border-radius: 28px; background: #fff; font-size: clamp(54px, 12vmin, 96px); box-shadow: 0 7px 0 rgba(0,0,0,.14); animation: aparecer .4s backwards; }
+
+/* ===== Ordenar ===== */
+.cosa-ordenar { position: absolute; left: 50%; top: 22%; width: clamp(110px, 24vmin, 170px); aspect-ratio: 1; margin-left: calc(clamp(110px, 24vmin, 170px) / -2); border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: clamp(66px, 15vmin, 110px); box-shadow: 0 8px 0 rgba(0,0,0,.15); touch-action: none; z-index: 5; }
+.cosa-ordenar.entra { animation: aparecer .45s; }
+.cosa-ordenar.arrastrando { box-shadow: 0 18px 26px rgba(0,0,0,.25); }
+.canastas { position: absolute; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; gap: clamp(10px, 3vw, 30px); padding: 0 10px; }
+.canasta { flex: 1; max-width: 260px; height: clamp(150px, 30vmin, 210px); border-radius: 28px 28px 40px 40px; background: var(--c); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 12px; font-size: clamp(18px, 3.5vmin, 26px); font-weight: 900; box-shadow: 0 8px 0 rgba(0,0,0,.18), inset 0 -14px 0 rgba(0,0,0,.12); position: relative; overflow: hidden; }
+.canasta .icono { font-size: clamp(40px, 9vmin, 64px); line-height: 1.1; }
+.canasta .dentro { position: absolute; bottom: 8px; left: 6px; right: 6px; font-size: 26px; line-height: 1; text-align: center; word-break: break-all; }
+.canasta.brilla { animation: festejoBoton .6s; }
+
 /* ===== Festejo grande ===== */
 .festejo { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 .festejo > div {

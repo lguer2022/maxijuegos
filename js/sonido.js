@@ -112,6 +112,40 @@ const Sonido = (() => {
         tono({ f: f / 2, dur: d, tipo: 'triangle', vol: 0.15, en: e });
       });
     },
+    salto()     { tono({ f: 300, a: 750, dur: 0.22, tipo: 'square', vol: 0.12, filtro: 2000 }); },
+    choque()    { ruido({ dur: 0.25, vol: 0.4, filtro: 400, tipo: 'lowpass' }); tono({ f: 200, a: 90, dur: 0.3, tipo: 'triangle', vol: 0.25 }); },
+    bocina()    { [0, 0.28].forEach(e => { tono({ f: 392, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); tono({ f: 494, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); }); },
+    disparo()   { tono({ f: 900, a: 300, dur: 0.15, vol: 0.18 }); },
+    pegar()     { tono({ f: 250, a: 200, dur: 0.08, tipo: 'triangle', vol: 0.18 }); },
+    // Motor de auto continuo: devuelve { set(velocidad 0..1), parar() }
+    motor() {
+      const nada = { set() {}, parar() {} };
+      const c = ac(); if (!c) return nada;
+      const o = c.createOscillator(), o2 = c.createOscillator();
+      const f = c.createBiquadFilter(), g = c.createGain();
+      o.type = 'sawtooth'; o2.type = 'square';
+      o.frequency.value = 55; o2.frequency.value = 27.5;
+      f.type = 'lowpass'; f.frequency.value = 500;
+      g.gain.value = 0.0001;
+      o.connect(f); o2.connect(f); f.connect(g).connect(salida(c));
+      o.start(); o2.start();
+      let parado = false;
+      return {
+        set(v) {
+          if (parado) return;
+          const t = c.currentTime;
+          o.frequency.setTargetAtTime(55 + v * 120, t, 0.08);
+          o2.frequency.setTargetAtTime(27.5 + v * 60, t, 0.08);
+          f.frequency.setTargetAtTime(400 + v * 900, t, 0.08);
+          g.gain.setTargetAtTime(mudo ? 0.0001 : 0.025 + v * 0.06, t, 0.08);
+        },
+        parar() {
+          if (parado) return; parado = true;
+          g.gain.setTargetAtTime(0.0001, c.currentTime, 0.05);
+          setTimeout(() => { try { o.stop(); o2.stop(); } catch (e) {} }, 400);
+        }
+      };
+    },
     animal(id) { animales[id] && animales[id](); }
   };
 })();

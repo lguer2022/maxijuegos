@@ -115,6 +115,45 @@ const App = (() => {
     entero: (a, b) => a + ((Math.random() * (b - a + 1)) | 0),
     centro,
     chispa(x, y, color) { Confeti.chispa(x, y, color); },
+    // Fuente para dibujar emojis en un canvas
+    fuenteEmoji: px => `${px}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`,
+    // Algo para hacer al salir del juego (ej.: apagar el motor)
+    alSalir(fn) { timers.push(fn); },
+    // Canvas que ocupa todo el contenedor y se adapta al tamaño de la pantalla
+    lienzo(cont, alCambiar) {
+      const cv = document.createElement('canvas');
+      cv.className = 'lienzo-juego';
+      cont.appendChild(cv);
+      const L = { cv, cx: cv.getContext('2d'), w: 0, h: 0 };
+      const ajustar = () => {
+        const d = window.devicePixelRatio || 1;
+        const w = cont.clientWidth, h = cont.clientHeight;
+        if (!w || !h || (w === L.w && h === L.h)) return;
+        L.w = w; L.h = h;
+        cv.width = w * d; cv.height = h * d;
+        cv.style.width = w + 'px'; cv.style.height = h + 'px';
+        L.cx.setTransform(d, 0, 0, d, 0, 0);
+        if (alCambiar) alCambiar(L);
+      };
+      const ro = new ResizeObserver(ajustar);
+      ro.observe(cont);
+      timers.push(() => ro.disconnect());
+      ajustar();
+      return L;
+    },
+    // Bucle de animación: fn(dt en segundos). Se corta solo al salir del juego.
+    cuadro(fn) {
+      const g = gen;
+      let prev = performance.now();
+      const loop = t => {
+        if (g !== gen) return;
+        const dt = Math.min(0.05, Math.max(0, (t - prev) / 1000));
+        prev = t;
+        fn(dt, t);
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    },
     // Premio chico: una estrella + chispas donde está el elemento
     estrella(el, color) {
       sumarEstrella();

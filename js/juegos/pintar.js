@@ -71,6 +71,7 @@ App.registrar({
         cx.rotate((Math.random() - 0.5) * 0.6);
         cx.font = `${tam}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
         cx.textAlign = 'center'; cx.textBaseline = 'middle';
+        cx.fillStyle = '#000';
         cx.fillText(herramienta.valor, 0, 0);
         cx.restore();
         api.sonido.pop();
