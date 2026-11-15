@@ -1,0 +1,212 @@
+/* ===== Base ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body {
+  font-family: "Arial Rounded MT Bold", "Nunito", "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  background: linear-gradient(160deg, #7dd3fc 0%, #a5b4fc 50%, #f0abfc 100%);
+  color: #3b2a5a;
+  touch-action: manipulation;
+}
+button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
+
+/* Nubes de fondo */
+.nubes span { position: fixed; left: -150px; font-size: 110px; opacity: .55; animation: nube linear infinite; pointer-events: none; z-index: 0; }
+@keyframes nube { to { transform: translateX(calc(100vw + 300px)); } }
+
+/* ===== Barra superior ===== */
+.barra {
+  position: fixed; top: 0; left: 0; right: 0; height: 76px; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: max(8px, env(safe-area-inset-top)) 14px 8px;
+}
+.barra-izq, .barra-der { display: flex; align-items: center; gap: 10px; min-width: 70px; }
+.barra-der { justify-content: flex-end; }
+.titulo {
+  flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: clamp(22px, 5vw, 44px); color: #fff; letter-spacing: 1px;
+  text-shadow: 0 3px 0 #7c3aed, 0 6px 12px rgba(80, 30, 140, .35);
+}
+.btn-redondo {
+  width: 58px; height: 58px; border-radius: 50%; background: #fff; font-size: 30px;
+  box-shadow: 0 5px 0 rgba(0,0,0,.15); transition: transform .1s;
+}
+.btn-redondo:active { transform: translateY(3px) scale(.95); box-shadow: 0 2px 0 rgba(0,0,0,.15); }
+.estrellas {
+  background: #fff; border-radius: 30px; padding: 8px 16px; font-size: 26px; font-weight: 800;
+  box-shadow: 0 5px 0 rgba(0,0,0,.15); white-space: nowrap;
+}
+.estrellas.salto { animation: salto .5s; }
+
+/* ===== Menú ===== */
+#menu { position: absolute; inset: 76px 0 0 0; overflow-y: auto; padding: 10px 16px 30px; z-index: 1; }
+.grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; max-width: 1050px; margin: 0 auto; }
+.tarjeta {
+  aspect-ratio: 1; border-radius: 34px; background: var(--c); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  font-size: clamp(18px, 3.2vw, 26px); font-weight: 800; text-shadow: 0 2px 0 rgba(0,0,0,.2);
+  box-shadow: 0 8px 0 rgba(0,0,0,.2), inset 0 -10px 0 rgba(0,0,0,.08), inset 0 10px 0 rgba(255,255,255,.25);
+  animation: aparecer .5s backwards; transition: transform .12s;
+}
+.tarjeta:active { transform: translateY(5px) scale(.96); box-shadow: 0 3px 0 rgba(0,0,0,.2); }
+.tarjeta .emo { font-size: clamp(56px, 10vw, 80px); animation: flotar 2.4s ease-in-out infinite; text-shadow: none; }
+
+/* ===== Área de juego ===== */
+.area-juego { position: absolute; inset: 76px 10px 10px; display: none; border-radius: 30px; overflow: hidden; touch-action: none; z-index: 1; box-shadow: inset 0 0 0 6px rgba(255,255,255,.6); }
+
+.pregunta {
+  position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 14px 10px 4px; font-size: clamp(24px, 5vw, 44px); font-weight: 800; text-align: center;
+}
+.pregunta b { text-shadow: 0 2px 0 rgba(0,0,0,.15); }
+.btn-repetir { width: 56px; height: 56px; flex: none; border-radius: 50%; background: #fff; font-size: 28px; box-shadow: 0 4px 0 rgba(0,0,0,.15); }
+.btn-repetir:active { transform: scale(.92); }
+
+.opciones { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(14px, 4vw, 40px); padding: 20px; height: calc(100% - 90px); align-content: center; }
+.correcta { animation: festejoBoton .7s !important; }
+.mal { animation: sacudir .45s; }
+
+/* Marcador genérico */
+.marcador { position: absolute; top: 12px; left: 16px; z-index: 5; background: #fff; border-radius: 26px; padding: 6px 16px; font-size: 28px; font-weight: 800; box-shadow: 0 4px 0 rgba(0,0,0,.12); pointer-events: none; }
+
+/* ===== 1. Globos ===== */
+.globo {
+  position: absolute; bottom: -180px;
+  border-radius: 50% 50% 48% 52% / 55% 55% 45% 45%;
+  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.75) 0 9%, transparent 10%), radial-gradient(circle at 50% 60%, var(--c), color-mix(in srgb, var(--c) 75%, #000));
+  display: flex; align-items: center; justify-content: center;
+  animation-name: subir, bambolear; animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: 1, infinite; animation-direction: normal, alternate; animation-fill-mode: forwards, none;
+  transition: scale .25s, opacity .25s;
+}
+.globo span { font-size: 36px; pointer-events: none; }
+.globo::after { content: ""; position: absolute; top: 100%; left: 50%; width: 2px; height: 60px; background: rgba(255,255,255,.8); }
+.globo::before { content: ""; position: absolute; top: calc(100% - 4px); left: calc(50% - 7px); border: 7px solid transparent; border-bottom-color: var(--c); }
+.globo.roto { scale: 1.6; opacity: 0; }
+@keyframes subir { to { transform: translateY(calc(-100vh - 260px)); } }
+@keyframes bambolear { from { rotate: -6deg; } to { rotate: 6deg; } }
+
+/* ===== 2. Animales ===== */
+.grilla-animales { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 14px; padding: 16px; height: 100%; }
+@media (orientation: portrait) { .grilla-animales { grid-template-columns: repeat(3, 1fr); } }
+.animal { border-radius: 26px; box-shadow: 0 6px 0 rgba(0,0,0,.12); display: flex; align-items: center; justify-content: center; position: relative; animation: aparecer .4s backwards; container-type: size; }
+.animal span { font-size: min(62cqh, 62cqw); line-height: 1; }
+.animal.salta span { animation: animalSalta .6s; display: inline-block; }
+.animal.visto::after { content: "⭐"; position: absolute; top: 6px; right: 10px; font-size: 22px; }
+
+/* ===== 3. Piano ===== */
+.btn-cancion { white-space: nowrap; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 3; background: #fff; border-radius: 30px; padding: 10px 26px; font-size: 26px; font-weight: 800; box-shadow: 0 5px 0 rgba(0,0,0,.15); }
+.btn-cancion:active { transform: translateX(-50%) scale(.95); }
+.teclado { position: absolute; inset: 86px 14px 14px; display: flex; gap: 8px; }
+.tecla {
+  flex: 1; border-radius: 14px 14px 28px 28px; background: var(--c);
+  box-shadow: inset 0 -16px 0 rgba(0,0,0,.18), inset 0 10px 0 rgba(255,255,255,.3), 0 6px 0 rgba(0,0,0,.15);
+  display: flex; align-items: flex-end; justify-content: center; padding-bottom: 24px; transform-origin: top;
+}
+.tecla span { font-size: clamp(26px, 6vw, 56px); pointer-events: none; }
+.tecla.activa { animation: apretar .3s; }
+.nota-flota { position: absolute; font-size: 44px; pointer-events: none; animation: notaSube 1.3s ease-out forwards; z-index: 4; transform: translateX(-50%); }
+
+/* ===== 4. Colores ===== */
+.mancha {
+  width: clamp(120px, 34vmin, 220px); aspect-ratio: 1; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c) 70%, #fff), var(--c) 60%);
+  border-radius: 58% 42% 55% 45% / 48% 58% 42% 52%; box-shadow: 0 8px 0 rgba(0,0,0,.15);
+  position: relative; animation: aparecer .45s backwards, latido 2.2s ease-in-out infinite;
+}
+.mancha .ojo { position: absolute; top: 34%; width: 20%; height: 22%; background: #fff; border-radius: 50%; }
+.mancha .ojo:nth-child(1) { left: 26%; } .mancha .ojo:nth-child(2) { right: 26%; }
+.mancha .ojo::after { content: ""; position: absolute; width: 50%; height: 50%; background: #222; border-radius: 50%; top: 30%; left: 28%; }
+.mancha .boca { position: absolute; left: 36%; top: 60%; width: 28%; height: 14%; border-bottom: 5px solid rgba(0,0,0,.55); border-radius: 0 0 50% 50%; }
+
+/* ===== 5. Formas ===== */
+.forma { width: clamp(120px, 34vmin, 220px); aspect-ratio: 1; background: #fff; border-radius: 30px; padding: 16px; box-shadow: 0 8px 0 rgba(0,0,0,.12); animation: aparecer .45s backwards; }
+.forma svg { width: 100%; height: 100%; overflow: visible; }
+
+/* ===== 6. Memotest ===== */
+.memo {
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 12px;
+  width: min(94%, calc((100vh - 140px) * var(--cols) / var(--filas))); margin: 16px auto; perspective: 900px;
+}
+.carta { aspect-ratio: 1; position: relative; transform-style: preserve-3d; transition: transform .45s; animation: aparecer .4s backwards; container-type: inline-size; }
+.carta.abierta { transform: rotateY(180deg); }
+.cara { position: absolute; inset: 0; border-radius: 20px; display: flex; align-items: center; justify-content: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; font-size: 55cqw; box-shadow: 0 6px 0 rgba(0,0,0,.15); }
+.frente { background: linear-gradient(135deg, #a855f7, #ec4899); font-size: 40cqw; }
+.dorso { background: #fff; transform: rotateY(180deg); }
+.carta.par .dorso { background: #d9f99d; animation: festejoBoton .7s; }
+
+/* ===== 7. Contar ===== */
+.juego-contar .campo { position: relative; height: calc(100% - 90px - 130px); margin: 0 12px; }
+.cosa { position: absolute; transform: translate(-50%, -50%); font-size: clamp(56px, 11vmin, 100px); animation: aparecerCentro .4s backwards; }
+.cosa.contada { filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 6px #facc15); }
+.etiqueta { position: absolute; top: -8px; right: -14px; background: #ef4444; color: #fff; font-size: 26px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid #fff; animation: aparecer .3s; }
+.numeros { position: absolute; left: 0; right: 0; bottom: 12px; display: flex; justify-content: center; gap: clamp(8px, 2vw, 20px); padding: 0 10px; }
+.numero { width: clamp(64px, 15vw, 110px); height: 110px; background: #fff; border-radius: 24px; box-shadow: 0 6px 0 rgba(0,0,0,.15); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.numero .cifra { font-size: 50px; font-weight: 900; line-height: 1; color: #7c3aed; }
+.numero .puntos { font-size: 14px; color: #f97316; letter-spacing: 2px; }
+
+/* ===== 8. Sombras ===== */
+.modelo { text-align: center; font-size: clamp(90px, 22vmin, 170px); line-height: 1.1; filter: drop-shadow(0 8px 0 rgba(0,0,0,.1)); }
+.modelo.entra { animation: aparecer .5s; }
+.juego-sombras .opciones { height: auto; padding-top: 0; }
+.sombra { width: clamp(100px, 27vmin, 180px); aspect-ratio: 1; background: rgba(255,255,255,.7); border-radius: 30px; box-shadow: 0 6px 0 rgba(0,0,0,.1); animation: aparecer .45s backwards; container-type: inline-size; }
+.sombra span { font-size: 62cqw; display: inline-block; filter: brightness(0); opacity: .75; transition: filter .5s, opacity .5s; }
+.sombra.correcta span { filter: none; opacity: 1; }
+
+/* ===== 9. Dale de comer ===== */
+.comensal { position: relative; display: flex; flex-direction: column; align-items: center; height: calc(100% - 90px - 150px); justify-content: center; }
+.bicho { font-size: clamp(110px, 26vmin, 200px); line-height: 1; position: relative; z-index: 2; }
+.bicho.entra { animation: aparecer .5s; }
+.bicho.comiendo { animation: comer .9s; }
+.bicho.no { animation: sacudir .5s; }
+.plato { font-size: clamp(60px, 12vmin, 100px); margin-top: -30px; opacity: .9; }
+.comidas { position: absolute; bottom: 16px; left: 0; right: 0; display: flex; justify-content: center; gap: clamp(16px, 5vw, 50px); }
+.comidita { width: clamp(96px, 20vw, 140px); aspect-ratio: 1; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: clamp(56px, 11vw, 84px); box-shadow: 0 6px 0 rgba(0,0,0,.15); touch-action: none; position: relative; z-index: 3; animation: aparecer .45s backwards; }
+.comidita.arrastrando { z-index: 10; box-shadow: 0 16px 24px rgba(0,0,0,.25); }
+
+/* ===== 10. Pintar ===== */
+.lienzo-caja { position: absolute; inset: 12px 12px 108px; border-radius: 24px; overflow: hidden; box-shadow: 0 6px 0 rgba(0,0,0,.12); background: #fff; transition: opacity .3s, transform .3s; }
+.lienzo-caja.borrando { opacity: 0; transform: scale(.96) rotate(-1deg); }
+.lienzo { display: block; touch-action: none; }
+.paleta { position: absolute; left: 0; right: 0; bottom: 10px; display: flex; gap: 8px; justify-content: safe center; overflow-x: auto; padding: 6px 12px; }
+.herr { flex: none; width: 70px; height: 70px; border-radius: 50%; background: #fff; font-size: 34px; box-shadow: 0 4px 0 rgba(0,0,0,.15); display: flex; align-items: center; justify-content: center; transition: transform .15s; }
+.herr.elegida { transform: translateY(-8px) scale(1.08); box-shadow: 0 0 0 5px #7c3aed, 0 8px 0 rgba(0,0,0,.15); }
+.gota { width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 -5px 0 rgba(0,0,0,.2), inset 0 5px 0 rgba(255,255,255,.35); }
+
+/* ===== Festejo grande ===== */
+.festejo { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.festejo > div {
+  background: #fff; border-radius: 40px; padding: 24px 40px; display: flex; flex-direction: column; align-items: center;
+  font-size: clamp(30px, 7vw, 60px); font-weight: 900; color: #7c3aed; text-align: center;
+  box-shadow: 0 12px 0 rgba(0,0,0,.15), 0 0 0 10px #fde047; animation: festejo 2.3s forwards;
+}
+.festejo-emoji { font-size: 1.8em; animation: flotar 1s ease-in-out infinite; }
+
+/* ===== Pantalla de inicio ===== */
+.inicio { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, #7dd3fc, #c4b5fd, #f9a8d4); transition: opacity .5s; }
+.inicio.chau { opacity: 0; }
+.inicio-caja { text-align: center; color: #fff; }
+.inicio-emoji { font-size: clamp(60px, 14vw, 110px); animation: flotar 2s ease-in-out infinite; }
+.inicio h2 { font-size: clamp(40px, 10vw, 80px); text-shadow: 0 4px 0 #7c3aed; margin: 10px 0 26px; }
+.btn-jugar { font-size: clamp(30px, 7vw, 48px); font-weight: 900; color: #fff; background: #22c55e; padding: 18px 46px; border-radius: 60px; box-shadow: 0 10px 0 #15803d; animation: latido 1.4s ease-in-out infinite; }
+.btn-jugar:active { transform: translateY(6px); box-shadow: 0 4px 0 #15803d; }
+
+#confeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 95; }
+
+/* ===== Animaciones ===== */
+@keyframes aparecer { from { transform: scale(0); opacity: 0; } 70% { transform: scale(1.1); } to { transform: scale(1); opacity: 1; } }
+@keyframes aparecerCentro { from { transform: translate(-50%, -50%) scale(0); } 70% { transform: translate(-50%, -50%) scale(1.15); } to { transform: translate(-50%, -50%) scale(1); } }
+@keyframes flotar { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+@keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes salto { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.35) rotate(-6deg); } }
+@keyframes sacudir { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-14px) rotate(-4deg); } 40% { transform: translateX(12px) rotate(3deg); } 60% { transform: translateX(-8px); } 80% { transform: translateX(6px); } }
+@keyframes festejoBoton { 0% { transform: scale(1); } 30% { transform: scale(1.25) rotate(-6deg); } 60% { transform: scale(.95) rotate(4deg); } 100% { transform: scale(1); } }
+@keyframes animalSalta { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-22%) scale(1.15, .9); } 55% { transform: translateY(0) scale(.9, 1.1); } 75% { transform: rotate(-8deg); } 100% { transform: none; } }
+@keyframes apretar { 0% { transform: scaleY(1); filter: brightness(1); } 40% { transform: scaleY(.95) translateY(6px); filter: brightness(1.3); } 100% { transform: scaleY(1); filter: brightness(1); } }
+@keyframes notaSube { from { opacity: 1; transform: translate(-50%, 0) scale(.6); } to { opacity: 0; transform: translate(-50%, -220px) scale(1.4) rotate(20deg); } }
+@keyframes comer { 0%, 100% { transform: scale(1); } 20% { transform: scale(1.15, .9); } 40% { transform: scale(.95, 1.08); } 60% { transform: scale(1.12, .92); } 80% { transform: scale(.98, 1.04); } }
+@keyframes festejo { 0% { transform: scale(0) rotate(-10deg); opacity: 0; } 15% { transform: scale(1.15) rotate(3deg); opacity: 1; } 25% { transform: scale(1) rotate(0); } 85% { transform: scale(1); opacity: 1; } 100% { transform: scale(.6); opacity: 0; } }
+
+@media (max-height: 500px) {
+  .barra { height: 62px; } #menu, .area-juego { top: 62px; }
+  .btn-redondo { width: 48px; height: 48px; font-size: 24px; }
+  .numero { height: 84px; } .numero .cifra { font-size: 38px; }
+}

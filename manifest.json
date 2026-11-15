@@ -1,0 +1,15 @@
+{
+  "name": "Los juegos de Maxi",
+  "short_name": "Juegos Maxi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#a5b4fc",
+  "theme_color": "#a78bfa",
+  "lang": "es",
+  "icons": [
+    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

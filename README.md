@@ -1,0 +1,38 @@
+# Los juegos de Maxi 🎈
+
+```
+LOS JUEGOS DE MAXI
+==================
+
+10 juegos para chicos de 3 a 5 años. Funciona en la compu, en tablets y en celulares Android.
+Todos los sonidos se generan con código y la voz usa la del sistema (en castellano).
+
+CÓMO JUGAR EN LA COMPU
+  Abrí "index.html" con doble clic (mejor con Chrome).
+
+CÓMO PONERLO EN EL CELULAR ANDROID (como una app, con ícono y sin internet)
+  1. Subí la carpeta a un hosting gratuito. Lo más fácil: entrá a https://app.netlify.com/drop
+     y arrastrá la carpeta "App Maxi" entera. Te da un link.
+  2. Abrí ese link en Chrome del celular.
+  3. Menú (⋮) → "Agregar a la pantalla principal" / "Instalar app".
+  Listo: queda con ícono, se abre a pantalla completa y funciona sin internet.
+
+LOS JUEGOS
+  1. Globos ........ explotar globos que suben (algunos tienen sorpresas)
+  2. Animales ...... tocás el animal y hace su sonido
+  3. Piano ......... teclas de colores + botón con la canción "Estrellita"
+  4. Colores ....... "¿Dónde está el rojo?"
+  5. Formas ........ círculo, cuadrado, triángulo, estrella, corazón, rectángulo
+  6. Memotest ...... empieza con 3 parejas y va subiendo
+  7. Contar ........ del 1 al 3, después hasta 5; si se equivoca, cuentan juntos
+  8. Sombras ....... encontrar la sombra de cada cosa
+  9. Dale de comer . arrastrar la comida correcta hasta el animal
+ 10. Pintar ........ dibujo libre, pincel arcoíris y sellos
+
+PERSONALIZAR
+  - Nombre del nene, velocidad y tono de la voz: js/config.js
+  - Cada juego está en su propio archivo: js/juegos/
+  - Las estrellas ganadas se guardan en el navegador.
+  - Si cambiás archivos y ya está instalado en el celular, subí el número de versión
+    en sw.js (juegos-maxi-v1 → v2) para que se actualice.
+```
