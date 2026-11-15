@@ -75,33 +75,19 @@
     }
 
     function probarCon(v) {
-      s.cancel();
-      const u = new SpeechSynthesisUtterance(`¡Hola, ${CONFIG.nombre}! ¿Jugamos?`);
-      u.voice = v; u.lang = v.lang; u.rate = CONFIG.vozVelocidad; u.pitch = CONFIG.vozTono;
-      seguir(u);
-      setTimeout(() => s.speak(u), 120);
-    }
-
-    function seguir(u) {
       let empezo = false;
-      window._u = u; // que Chrome no la pierda
-      u.onstart = () => { empezo = true; mostrar('🔊 Hablando… ¿se escucha? Si no, subí el volumen.', 'ok'); };
-      u.onend = () => { if (empezo) mostrar('✅ La voz funciona. Si no la escuchaste, revisá el volumen.', 'ok'); };
-      u.onerror = e => mostrar('❌ Error de voz: ' + e.error + '. Probá con otra voz de la lista.', 'mal');
-      setTimeout(() => { if (!empezo) mostrar('❌ La voz no arrancó. Probá con otra voz de la lista o seguí los pasos de abajo.', 'mal'); }, 4000);
+      mostrar('⏳ Probando…');
+      Voz.probar(v, `¡Hola, ${CONFIG.nombre}! ¿Jugamos?`, (que, detalle) => {
+        if (que === 'empezo') { empezo = true; mostrar('🔊 Hablando… ¿se escucha? Si no, subí el volumen.', 'ok'); }
+        if (que === 'termino' && empezo) mostrar('✅ La voz funciona. Si no la escuchaste, revisá el volumen.', 'ok');
+        if (que === 'error') mostrar('❌ Error de voz: ' + detalle + '. Probá con otra voz de la lista.', 'mal');
+      });
+      setTimeout(() => { if (!empezo && !estado.classList.contains('mal')) mostrar('❌ La voz no arrancó. Probá con otra voz de la lista o seguí los pasos de abajo.', 'mal'); }, 6000);
     }
 
     document.getElementById('probar').onclick = () => {
       if (!Voz.soportada) { mostrar('❌ Este navegador no tiene voz. Probá con Chrome.', 'mal'); return; }
-      const v = Voz.actual();
-      if (v) probarCon(v);
-      else {
-        s.cancel();
-        const u = new SpeechSynthesisUtterance(`¡Hola, ${CONFIG.nombre}! ¿Jugamos?`);
-        u.lang = 'es-ES';
-        seguir(u);
-        setTimeout(() => s.speak(u), 120);
-      }
+      probarCon(Voz.actual());
     };
 
     dibujarLista();

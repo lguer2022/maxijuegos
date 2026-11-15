@@ -1,10 +1,12 @@
 // Voz en castellano (usa las voces del sistema: celular, tablet o compu).
-// Incluye arreglos para fallas conocidas de Chrome con la síntesis de voz.
+// Incluye arreglos para fallas conocidas de Chrome (sobre todo en Android),
+// donde cortar una frase y empezar otra enseguida da el error "interrupted".
 const Voz = (() => {
   const s = window.speechSynthesis;
   const Utter = window.SpeechSynthesisUtterance;
   let voz = null;
-  let pendiente = null;               // texto a decir cuando terminen de cargar las voces
+  let pedido = 0;                     // número del último pedido de hablar
+  let activa = null;                  // frase que está sonando ahora
   const vivas = new Set();            // Chrome a veces "pierde" frases si no se guardan
   const malas = new Set();            // voces que fallaron en este dispositivo
 
@@ -44,73 +46,70 @@ const Voz = (() => {
 
   if (s) {
     elegir();
-    s.addEventListener ? s.addEventListener('voiceschanged', alCargar) : (s.onvoiceschanged = alCargar);
+    if (s.addEventListener) s.addEventListener('voiceschanged', elegir);
+    else s.onvoiceschanged = elegir;
   }
 
-  function alCargar() {
-    elegir();
-    if (pendiente) { const t = pendiente; pendiente = null; hablar(t, 0); }
-  }
-
-  function hablar(texto, intento) {
+  // Habla una frase. Si Chrome la interrumpe sin que nosotros lo pidamos, reintenta.
+  function hablar(texto, n, op, intento) {
+    if (n !== pedido) return;                       // ya pidieron otra frase
+    const v = op.voz || voz;
     const u = new Utter(texto);
-    u.lang = voz ? voz.lang : 'es-ES';
-    if (voz && intento < 2) u.voice = voz;
+    u.lang = v ? v.lang : 'es-ES';
+    if (v && !op.sinVoz) u.voice = v;
     u.rate = CONFIG.vozVelocidad;
     u.pitch = CONFIG.vozTono;
     u.volume = 1;
     vivas.add(u);
-    u.onend = () => vivas.delete(u);
+    const fin = () => { vivas.delete(u); if (activa === u) activa = null; };
+    u.onstart = () => { activa = u; op.al && op.al('empezo'); };
+    u.onend = () => { fin(); op.al && op.al('termino'); };
     u.onerror = e => {
-      vivas.delete(u);
-      if (e.error === 'interrupted' || e.error === 'canceled' || intento >= 2) return;
-      // Esa voz falló: probar con otra (o con la voz por defecto)
-      if (voz) malas.add(voz.voiceURI);
-      elegir();
-      hablar(texto, intento + 1);
+      fin();
+      if (n !== pedido) return;                     // la cortamos nosotros a propósito
+      if (intento >= 3) { op.al && op.al('error', e.error); return; }
+      if (e.error === 'interrupted' || e.error === 'canceled') {
+        // Chrome en Android la cortó solo: esperar un poco y volver a intentar
+        setTimeout(() => hablar(texto, n, op, intento + 1), 350);
+      } else {
+        // Esa voz no anda en este dispositivo: probar con otra o con la de por defecto
+        if (v && !op.voz) { malas.add(v.voiceURI); elegir(); }
+        hablar(texto, n, Object.assign({}, op, intento >= 1 ? { sinVoz: true } : {}), intento + 1);
+      }
     };
     if (s.paused) s.resume();
     s.speak(u);
   }
 
+  function decir(texto, op) {
+    op = op || {};
+    if (!s || !Utter || !texto) return;
+    if (Sonido.silencio() && !op.voz) return;
+    const n = ++pedido;
+    if (!voz) elegir();
+    // Si todavía no cargaron las voces (pasa la primera vez), esperar un poquito
+    const demora = s.getVoices().length ? 0 : 900;
+    if (activa || s.speaking || s.pending) {
+      s.cancel();
+      // En Android, cancelar es lento: si se habla enseguida, la frase nueva se corta
+      setTimeout(() => hablar(texto, n, op, 0), Math.max(demora, 300));
+    } else if (demora) {
+      setTimeout(() => { if (!voz) elegir(); hablar(texto, n, op, 0); }, demora);
+    } else {
+      hablar(texto, n, op, 0);
+    }
+  }
+
   return {
     soportada: !!(s && Utter),
-
-    // Llamar dentro de un toque del usuario: "despierta" la voz en Chrome
-    desbloquear() {
-      if (!s || !Utter) return;
-      try {
-        const u = new Utter(' ');
-        u.volume = 0;
-        vivas.add(u);
-        u.onend = u.onerror = () => vivas.delete(u);
-        s.speak(u);
-      } catch (e) {}
-    },
-
-    decir(texto) {
-      if (!s || !Utter || Sonido.silencio() || !texto) return;
-      // Si todavía no cargaron las voces, esperar un poquito (pasa la primera vez en Chrome)
-      if (!s.getVoices().length) {
-        pendiente = texto;
-        setTimeout(() => { if (pendiente === texto) { pendiente = null; hablar(texto, 0); } }, 1200);
-        return;
-      }
-      if (!voz) elegir();
-      if (s.speaking || s.pending) {
-        s.cancel();
-        // Chrome se traga la frase si se habla justo después de cancelar
-        setTimeout(() => hablar(texto, 0), 120);
-      } else {
-        hablar(texto, 0);
-      }
-    },
-
-    callar() { pendiente = null; if (s) s.cancel(); },
+    desbloquear() { if (s && s.paused) s.resume(); },
+    decir,
+    callar() { pedido++; if (s && (activa || s.speaking || s.pending)) s.cancel(); },
 
     // Para la página de prueba de voces
     lista: espanolas,
     actual: () => voz,
+    probar(v, texto, al) { decir(texto, { voz: v, al }); },
     usar(uri) {
       try { uri ? localStorage.setItem('maxi-voz', uri) : localStorage.removeItem('maxi-voz'); } catch (e) {}
       malas.clear();

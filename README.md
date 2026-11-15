@@ -39,5 +39,5 @@ PERSONALIZAR
   - Cada juego está en su propio archivo: js/juegos/
   - Las estrellas ganadas se guardan en el navegador.
   - Si cambiás archivos y ya está instalado en el celular, subí el número de versión
-    en sw.js (juegos-maxi-v2 → v3) para que se actualice.
+    en sw.js (juegos-maxi-v3 → v4) para que se actualice.
 ```
