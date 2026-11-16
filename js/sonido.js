@@ -85,7 +85,7 @@ const Sonido = (() => {
   ];
   const buffers = {}, audios = {};
   // Nota (Hz) de cada grabación de instrumento, para afinarla
-  const BASE = { trompeta: 698, guitarra: 877, violin: 740 };
+  const BASE = { trompeta: 698, guitarra: 877, violin: 783 };
   function cargarClips() {
     const web = location.protocol.startsWith('http');
     CLIPS.forEach(([id, url]) => {
