@@ -1,6 +1,7 @@
 {
   "name": "Los juegos de Maxi",
   "short_name": "Juegos Maxi",
+  "description": "Centro de juegos para chicos de 3 a 5 años. Mg. Lic. Prof. Leandro Guerschberg - Gamificaciones y juegos - 2026. Este juego es de uso libre y gratuito.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

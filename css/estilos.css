@@ -253,6 +253,25 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .pieza.puesta { box-shadow: 0 0 0 1px rgba(255,255,255,.6); border-radius: 2px; transition: left .15s, top .15s; }
 .pieza.completa { box-shadow: none; border-radius: 0; }
 
+/* ===== Escribir ===== */
+.dibujo-palabra { text-align: center; font-size: clamp(70px, 16vmin, 130px); line-height: 1.15; }
+.dibujo-palabra.entra { animation: aparecer .5s; }
+.casilleros { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: clamp(4px, 1.2vw, 12px); width: min(94%, calc(var(--n) * 120px)); margin: 6px auto 0; }
+.casillero { aspect-ratio: 3 / 4; background: #fff; border-radius: 16px; border: 4px dashed #99f6e4; display: flex; align-items: center; justify-content: center; container-type: inline-size; transition: border-color .2s, transform .2s; }
+.casillero .guia { font-size: 62cqw; font-weight: 900; color: #cbd5e1; opacity: .7; }
+.casillero.siguiente { border-color: #14b8a6; border-style: solid; transform: translateY(-6px); box-shadow: 0 8px 16px rgba(20,184,166,.3); }
+.casillero.siguiente .guia { color: #5eead4; opacity: 1; animation: latido 1s ease-in-out infinite; display: inline-block; }
+.casillero.lleno { border-style: solid; border-color: #5eead4; }
+.letra-puesta { font-size: 64cqw; font-weight: 900; animation: aparecer .3s; text-shadow: 0 3px 0 rgba(0,0,0,.12); }
+.casilleros.lista .casillero { animation: festejoBoton .6s; }
+.casilleros.lista .casillero:nth-child(2) { animation-delay: .08s; } .casilleros.lista .casillero:nth-child(3) { animation-delay: .16s; }
+.casilleros.lista .casillero:nth-child(4) { animation-delay: .24s; } .casilleros.lista .casillero:nth-child(5) { animation-delay: .32s; }
+.casilleros.lista .casillero:nth-child(6) { animation-delay: .4s; } .casilleros.lista .casillero:nth-child(7) { animation-delay: .48s; }
+.fichas { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(8px, 2vw, 16px); padding: 22px 12px; }
+.ficha { width: clamp(64px, 13vmin, 100px); aspect-ratio: 3 / 4; border-radius: 16px; background: #fff; color: var(--c); font-size: clamp(40px, 8vmin, 66px); font-weight: 900; box-shadow: 0 7px 0 var(--c), 0 10px 16px rgba(0,0,0,.12); border: 4px solid var(--c); animation: aparecer .4s backwards; touch-action: none; }
+.ficha:active { transform: translateY(4px); box-shadow: 0 3px 0 var(--c); }
+.ficha.usada { pointer-events: none; }
+
 /* ===== Vocales ===== */
 .dibujo { text-align: center; font-size: clamp(90px, 22vmin, 170px); line-height: 1.1; }
 .dibujo.entra { animation: aparecer .5s; }
@@ -298,6 +317,9 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .btn-jugar:active { transform: translateY(6px); box-shadow: 0 4px 0 #15803d; }
 
 .link-voz { display: block; margin-top: 34px; color: #fff; font-size: 18px; opacity: .85; }
+
+.autoria { max-width: 1050px; margin: 26px auto 0; text-align: center; color: #fff; font-size: 14px; line-height: 1.5; opacity: .9; text-shadow: 0 1px 2px rgba(60,20,110,.4); }
+.autoria-inicio { margin-top: 18px; color: #fff; font-size: 13px; line-height: 1.5; opacity: .85; }
 
 #confeti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 95; }
 

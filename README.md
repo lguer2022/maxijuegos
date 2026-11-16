@@ -4,8 +4,14 @@
 LOS JUEGOS DE MAXI
 ==================
 
-22 juegos para chicos de 3 a 5 años. Funciona en la compu, en tablets y en celulares Android.
-Todos los sonidos se generan con código y la voz usa la del sistema (en castellano).
+23 juegos para chicos de 3 a 5 años. Funciona en la compu, en tablets y en celulares Android.
+Usa grabaciones de sonido libres (CC0), fotos reales y la voz del sistema en castellano.
+
+AUTORÍA Y LICENCIA
+  Mg. Lic. Prof. Leandro Guerschberg - Gamificaciones y juegos - 2026
+  Este juego es de uso libre y gratuito.
+  Los sonidos (Freesound, CC0) y las fotos (Unsplash) tienen sus propios créditos
+  en sonidos/CREDITOS.txt e imagenes/CREDITOS.txt.
 
 CÓMO JUGAR EN LA COMPU
   Abrí "index.html" con doble clic (mejor con Chrome).
@@ -42,6 +48,7 @@ LOS JUEGOS
  21. Mamás y bebés . fotos reales: encontrar el bebé de cada mamá (y al revés)
                      Fotos en imagenes/mamas/ (créditos en imagenes/CREDITOS.txt)
  22. Rompecabezas .. arrastrar las piezas a su lugar (4, 6 y 9 piezas)
+ 23. Escribir ...... armar palabras con tarjetas de letras (Maxi, Papá, Mamá, Casa...)
 
 SONIDOS
   Todos los sonidos son grabaciones de Freesound.org con licencia CC0 (dominio
