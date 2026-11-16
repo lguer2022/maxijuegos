@@ -48,6 +48,8 @@ SONIDOS
     sonidos/animales/  vaca.mp3, perro.mp3, ... (uno por animal)
     sonidos/efectos/   acierto, error, globo, burbuja, bocina, frenada, salto,
                        masticar, carta, bonk, festejo
+    sonidos/instrumentos/ bombo, redoblante, platillo, maracas, aplausos, campana,
+                       trompeta, guitarra, saxo (los que tienen notas se afinan solos)
   Si falta alguno, el juego usa un sonido hecho por la compu.
   Para cambiar un sonido, reemplazá el .mp3 con el mismo nombre.
 
