@@ -70,6 +70,48 @@ const Sonido = (() => {
     s.start(t);
   }
 
+  // ---------- Grabaciones reales de animales (carpeta sonidos/animales) ----------
+  // Si un archivo no está, se usa el sonido sintetizado de abajo.
+  const CLIPS = ['vaca', 'perro', 'gato', 'pato', 'pollito', 'gallina', 'gallo', 'leon', 'oveja', 'rana', 'elefante', 'caballo', 'mono'];
+  const buffers = {}, audios = {};
+  function cargarClips() {
+    const web = location.protocol.startsWith('http');
+    CLIPS.forEach(id => {
+      const url = `sonidos/animales/${id}.mp3`;
+      if (web) {
+        // en internet: Web Audio (más rápido y sin cortes)
+        fetch(url)
+          .then(r => r.ok ? r.arrayBuffer() : Promise.reject())
+          .then(ab => new Promise((ok, mal) => { const c = ac(); if (!c) return mal(); c.decodeAudioData(ab, ok, mal); }))
+          .then(b => { buffers[id] = b; })
+          .catch(() => {});
+      } else {
+        // abriendo index.html con doble clic: elemento <audio>
+        const a = new Audio(url);
+        a.preload = 'auto';
+        a.addEventListener('canplaythrough', () => { audios[id] = a; }, { once: true });
+        a.load();
+      }
+    });
+  }
+  // Toca la grabación si existe. Devuelve su duración en segundos (o 0 si no hay).
+  function clip(id, vol = 0.9) {
+    if (buffers[id]) {
+      if (mudo) return buffers[id].duration;
+      const c = ac(); if (!c) return 0;
+      const s = c.createBufferSource(), g = c.createGain();
+      s.buffer = buffers[id]; g.gain.value = vol;
+      s.connect(g).connect(salida(c));
+      s.start();
+      return buffers[id].duration;
+    }
+    if (audios[id]) {
+      if (!mudo) { const a = audios[id].cloneNode(); a.volume = vol; a.play().catch(() => {}); }
+      return audios[id].duration || 1.5;
+    }
+    return 0;
+  }
+
   const animales = {
     vaca()     { tono({ f: 150, a: 110, dur: 1.1, tipo: 'sawtooth', vol: 0.28, filtro: 600, ataque: 0.15, vib: 3 }); },
     perro()    { [0, 0.25].forEach(e => { tono({ f: 520, a: 260, dur: 0.14, tipo: 'sawtooth', vol: 0.22, en: e, filtro: 1500 }); ruido({ dur: 0.1, vol: 0.2, filtro: 700, en: e }); }); },
@@ -82,6 +124,8 @@ const Sonido = (() => {
     elefante() { tono({ f: 350, a: 700, dur: 0.7, tipo: 'sawtooth', vol: 0.2, filtro: 2000, vib: 20, vibF: 8 }); },
     caballo()  { tono({ f: 900, a: 500, dur: 0.8, tipo: 'sawtooth', vol: 0.15, filtro: 2000, vib: 60, vibF: 14 }); },
     cerdo()    { [0, 0.25].forEach(e => tono({ f: 250, a: 180, dur: 0.15, tipo: 'sawtooth', vol: 0.18, en: e, filtro: 900, vib: 50, vibF: 45 })); },
+    gallina()  { [0, 0.14, 0.28, 0.5].forEach((e, i) => tono({ f: i < 3 ? 520 : 700, a: i < 3 ? 380 : 450, dur: i < 3 ? 0.1 : 0.25, tipo: 'square', vol: 0.1, en: e, filtro: 1600 })); },
+    gallo()    { tono({ f: 500, a: 900, dur: 0.25, tipo: 'sawtooth', vol: 0.12, filtro: 2200 }); tono({ f: 900, a: 600, dur: 0.6, tipo: 'sawtooth', vol: 0.12, en: 0.25, filtro: 2200, vib: 25, vibF: 9 }); },
     mono()     { [0, 0.15, 0.3, 0.5].forEach((e, i) => tono({ f: i < 2 ? 500 : 700, a: i < 2 ? 900 : 1100, dur: 0.12, tipo: 'triangle', vol: 0.2, en: e })); }
   };
 
@@ -160,6 +204,15 @@ const Sonido = (() => {
     trompeta(f) { tono({ f, dur: 0.45, tipo: 'sawtooth', vol: 0.12, filtro: f * 4, ataque: 0.04, vib: 4, vibF: 6 }); },
     guitarra(f) { tono({ f, dur: 0.9, tipo: 'triangle', vol: 0.25, ataque: 0.002 }); tono({ f: f * 2, dur: 0.4, tipo: 'sawtooth', vol: 0.04, filtro: 2500, ataque: 0.002 }); },
     flauta(f)   { tono({ f, dur: 0.5, vol: 0.2, ataque: 0.05, vib: 5, vibF: 5 }); ruido({ dur: 0.08, vol: 0.05, filtro: f * 2, q: 3 }); },
-    animal(id) { animales[id] && animales[id](); }
+    // Sonido de un animal: grabación real si está, si no, sintetizado.
+    // Devuelve cuánto dura (segundos), para que la voz hable después.
+    animal(id) {
+      const d = clip(id);
+      if (d) return d;
+      if (animales[id]) animales[id]();
+      return 1;
+    },
+    cargarClips,
   };
 })();
+Sonido.cargarClips();

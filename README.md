@@ -42,6 +42,14 @@ LOS JUEGOS
  21. Mamás y bebés . encontrar el bebé de cada mamá
  22. Rompecabezas .. arrastrar las piezas a su lugar (4, 6 y 9 piezas)
 
+SONIDOS DE ANIMALES
+  Los animales usan grabaciones reales que están en sonidos/animales/ (vaca.mp3,
+  perro.mp3, etc.: clips cortos recortados de los originales de la carpeta sonidos/).
+  Si falta alguno, ese animal usa un sonido hecho por la compu.
+  Para cambiar un sonido, reemplazá el .mp3 con el mismo nombre.
+  Estos archivos tienen licencia de Epidemic Sound: no se suben al GitHub público
+  (están en .gitignore). Para publicar con sonidos, subí la carpeta a Netlify.
+
 SI NO SE ESCUCHA LA VOZ
   En la pantalla de inicio está el link "Probar la voz" (voz.html): muestra las voces
   en castellano del dispositivo, permite probarlas y elegir cuál usar, y explica

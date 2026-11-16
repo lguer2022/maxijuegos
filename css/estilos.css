@@ -86,8 +86,8 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 @keyframes bambolear { from { rotate: -6deg; } to { rotate: 6deg; } }
 
 /* ===== 2. Animales ===== */
-.grilla-animales { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 14px; padding: 16px; height: 100%; }
-@media (orientation: portrait) { .grilla-animales { grid-template-columns: repeat(3, 1fr); } }
+.grilla-animales { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 1fr; gap: 14px; padding: 16px; height: 100%; }
+@media (orientation: portrait) { .grilla-animales { grid-template-columns: repeat(4, 1fr); } }
 .animal { border-radius: 26px; box-shadow: 0 6px 0 rgba(0,0,0,.12); display: flex; align-items: center; justify-content: center; position: relative; animation: aparecer .4s backwards; container-type: size; }
 .animal span { font-size: min(62cqh, 62cqw); line-height: 1; }
 .animal.salta span { animation: animalSalta .6s; display: inline-block; }

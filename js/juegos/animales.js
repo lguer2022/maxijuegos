@@ -9,6 +9,8 @@ App.registrar({
       { id: 'gato', e: '🐱', n: 'El gato', s: 'miau' },
       { id: 'pato', e: '🦆', n: 'El pato', s: 'cuac cuac' },
       { id: 'pollito', e: '🐥', n: 'El pollito', s: 'pío pío' },
+      { id: 'gallina', e: '🐔', n: 'La gallina', s: 'co co co' },
+      { id: 'gallo', e: '🐓', n: 'El gallo', s: 'kikirikí' },
       { id: 'leon', e: '🦁', n: 'El león', s: 'grrrr' },
       { id: 'oveja', e: '🐑', n: 'La oveja', s: 'beee' },
       { id: 'rana', e: '🐸', n: 'La rana', s: 'croac croac' },
@@ -28,9 +30,9 @@ App.registrar({
       b.style.background = pasteles[i % pasteles.length];
       b.innerHTML = `<span>${a.e}</span>`;
       b.addEventListener('pointerdown', () => {
-        api.sonido.animal(a.id);
+        const dura = api.sonido.animal(a.id);
         b.classList.remove('salta'); void b.offsetWidth; b.classList.add('salta');
-        api.despues(750, () => api.decir(`${a.n} hace ${a.s}`));
+        api.despues(Math.min(dura, 2.4) * 1000 + 150, () => api.decir(`${a.n} hace ${a.s}`));
         if (!tocados.has(a.id)) {
           tocados.add(a.id);
           b.classList.add('visto');

@@ -66,13 +66,14 @@ App.registrar({
         api.despues(500, () => {
           mama.classList.add('feliz');
           mama.querySelector('.corazones').textContent = '❤️ ❤️ ❤️';
-          if (f.id) api.sonido.animal(f.id); else api.sonido.bien();
+          const dura = f.id ? api.sonido.animal(f.id) : (api.sonido.bien(), 0.5);
           api.estrella(mama);
           aciertos++;
           const frase = f.id ? `¡Sí! ¡${may(f.mn)} y ${f.bn}!` : '¡Sí! ¡La oruga, cuando crece, se convierte en mariposa!';
-          api.despues(700, () => api.decir(frase));
-          if (aciertos % 5 === 0) { api.despues(2600, () => api.festejo()); api.despues(5000, ronda); }
-          else api.despues(f.id ? 3000 : 4200, ronda);
+          const habla = Math.min(dura, 2.4) * 1000 + 150;
+          api.despues(habla, () => api.decir(frase));
+          if (aciertos % 5 === 0) { api.despues(habla + 2000, () => api.festejo()); api.despues(habla + 4400, ronda); }
+          else api.despues(habla + (f.id ? 2400 : 3600), ronda);
         });
       } else {
         b.classList.remove('mal'); void b.offsetWidth; b.classList.add('mal');

@@ -1,6 +1,6 @@
 // Permite usar la app sin internet.
 // Primero intenta bajar la versión nueva; si no hay internet, usa la guardada.
-const CACHE = 'juegos-maxi-v5';
+const CACHE = 'juegos-maxi-v6';
 const ARCHIVOS = [
   './', 'index.html', 'voz.html', 'manifest.json', 'css/estilos.css',
   'js/config.js', 'js/sonido.js', 'js/voz.js', 'js/app.js',

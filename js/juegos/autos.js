@@ -34,7 +34,7 @@ App.registrar({
 
     const bichos = [
       { e: '🐄', id: 'vaca', n: 'la vaca' }, { e: '🐑', id: 'oveja', n: 'la oveja' },
-      { e: '🐔', id: 'pollito', n: 'la gallina' }, { e: '🦆', id: 'pato', n: 'el pato' },
+      { e: '🐔', id: 'gallina', n: 'la gallina' }, { e: '🦆', id: 'pato', n: 'el pato' },
       { e: '🐕', id: 'perro', n: 'el perro' }, { e: '🐖', id: 'cerdo', n: 'el chanchito' },
       { e: '🐎', id: 'caballo', n: 'el caballo' }, { e: '🐈', id: 'gato', n: 'el gato' }
     ];
@@ -163,11 +163,12 @@ App.registrar({
       const b = bicho, despacito = v < vmax() * LENTO;
       b.huye = 0.001;
       bocinaBtn.classList.remove('pulsa');
-      api.despues(250, () => api.sonido.animal(b.id));
+      let dura = 1;
+      api.despues(250, () => { dura = api.sonido.animal(b.id); });
       api.estrella(bocinaBtn);
-      api.despues(600, () => api.decir(despacito
+      api.despues(450, () => api.despues(Math.min(dura, 2.2) * 1000, () => api.decir(despacito
         ? `¡Muy bien! Frenaste y tocaste bocina. ¡Chau ${b.n.split(' ')[1]}!`
-        : `¡Se fue ${b.n}! ¡Muy bien!`));
+        : `¡Se fue ${b.n}! ¡Muy bien!`)));
       proximoBicho = 6 + Math.random() * 5;
     });
 
