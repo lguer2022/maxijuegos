@@ -1,6 +1,6 @@
 // Permite usar la app sin internet.
 // Primero intenta bajar la versión nueva; si no hay internet, usa la guardada.
-const CACHE = 'juegos-maxi-v4';
+const CACHE = 'juegos-maxi-v5';
 const ARCHIVOS = [
   './', 'index.html', 'voz.html', 'manifest.json', 'css/estilos.css',
   'js/config.js', 'js/sonido.js', 'js/voz.js', 'js/app.js',
@@ -8,6 +8,7 @@ const ARCHIVOS = [
   'js/juegos/formas.js', 'js/juegos/memotest.js', 'js/juegos/contar.js', 'js/juegos/sombras.js',
   'js/juegos/comida.js', 'js/juegos/pintar.js',
   'js/juegos/autos.js', 'js/juegos/dino.js', 'js/juegos/burbujas.js', 'js/juegos/vocales.js', 'js/juegos/quesigue.js', 'js/juegos/ordenar.js',
+  'js/juegos/topos.js', 'js/juegos/atrapar.js', 'js/juegos/banda.js', 'js/juegos/numeros.js', 'js/juegos/mamas.js', 'js/juegos/rompecabezas.js',
   'iconos/icono-192.png', 'iconos/icono-512.png'
 ];
 

@@ -1,6 +1,6 @@
 // 15. ¿Qué sigue?: completar la serie (patrones AB, AAB, ABB, ABC)
 App.registrar({
-  id: 'quesigue', nombre: '¿Qué sigue?', emoji: '🧩', color: '#14b8a6',
+  id: 'quesigue', nombre: '¿Qué sigue?', emoji: '🔁', color: '#14b8a6',
   fondo: 'linear-gradient(#ccfbf1, #e0e7ff)',
   iniciar(area, api) {
     const grupos = [

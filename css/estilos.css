@@ -183,6 +183,73 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .elegir-auto button { width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,.85); font-size: 30px; box-shadow: 0 4px 0 rgba(0,0,0,.15); }
 .elegir-auto button.elegida { background: #fde047; box-shadow: 0 0 0 4px #fff, 0 4px 0 rgba(0,0,0,.15); }
 
+.freno { right: 150px; bottom: 16px; width: 100px; height: 100px; font-size: 20px; font-weight: 900; color: #fff; background: #ef4444; box-shadow: 0 8px 0 #b91c1c; flex-direction: column; line-height: 1.1; }
+.freno span { font-size: 36px; }
+.freno.apretado { box-shadow: 0 3px 0 #b91c1c; }
+.bocina.pulsa { animation: pulsa .6s ease-in-out infinite; box-shadow: 0 0 0 6px #facc15, 0 6px 0 rgba(0,0,0,.18); }
+@keyframes pulsa { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18) rotate(-8deg); } }
+.velocimetro { top: 14px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.85); border-radius: 30px; padding: 6px 14px; font-size: 26px; box-shadow: 0 4px 0 rgba(0,0,0,.12); pointer-events: none; }
+.barra-vel { width: clamp(80px, 22vw, 200px); height: 16px; border-radius: 10px; background: #e5e7eb; overflow: hidden; }
+.barra-vel i { display: block; height: 100%; width: 0; background: #22c55e; border-radius: 10px; transition: background .2s; }
+@media (max-width: 900px) { .velocimetro { top: 82px; } }
+
+/* ===== Topos ===== */
+.campo-topos { position: absolute; inset: 70px 16px 16px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; }
+.pozo { position: relative; container-type: size; }
+.pozo .ventana { position: absolute; left: 10%; right: 10%; top: 0; bottom: 22%; overflow: hidden; z-index: 2; }
+.topo { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; background: none; font-size: min(70cqh, 60cqw); line-height: 1; display: flex; align-items: flex-end; justify-content: center; transform: translateY(110%); transition: transform .22s cubic-bezier(.3,1.5,.6,1); }
+.pozo.arriba .topo { transform: translateY(2%); }
+.topo.mareado { filter: brightness(1.15); }
+.topo.mareado::after { content: "💫"; position: absolute; top: 4%; font-size: 40cqh; animation: girar .6s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+.pozo .tierra { position: absolute; left: 4%; right: 4%; bottom: 8%; height: 26%; border-radius: 50%; background: radial-gradient(ellipse at 50% 35%, #3f2a14 0 55%, #7c5a2e 56% 100%); box-shadow: 0 6px 0 rgba(0,0,0,.12); }
+
+/* ===== Banda ===== */
+.bailarines { display: flex; justify-content: center; gap: clamp(10px, 4vw, 40px); padding-top: 10px; font-size: clamp(44px, 10vmin, 80px); }
+.bailarines span { display: inline-block; }
+.bailarines span.baila { animation: baile .35s; }
+@keyframes baile { 0% { transform: none; } 40% { transform: translateY(-18px) rotate(-12deg) scale(1.1); } 100% { transform: none; } }
+.btn-ritmo { position: absolute; top: 14px; right: 16px; z-index: 3; background: #fde047; color: #3b2a5a; border-radius: 30px; padding: 10px 20px; font-size: 22px; font-weight: 900; box-shadow: 0 5px 0 #ca8a04; }
+.btn-ritmo.activo { background: #f472b6; box-shadow: 0 5px 0 #be185d; color: #fff; }
+.instrumentos { position: absolute; inset: calc(clamp(44px, 10vmin, 80px) + 40px) 14px 14px; display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 1fr; gap: 12px; }
+.instrumento { border-radius: 26px; background: var(--c); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 7px 0 rgba(0,0,0,.25), inset 0 8px 0 rgba(255,255,255,.25); container-type: size; touch-action: none; }
+.instrumento .ico { font-size: min(52cqh, 46cqw); line-height: 1.05; }
+.instrumento .nom { font-size: min(14cqh, 12cqw); font-weight: 900; text-shadow: 0 2px 0 rgba(0,0,0,.2); }
+.instrumento.suena { animation: suena .3s; }
+@keyframes suena { 0% { transform: scale(1); filter: brightness(1); } 35% { transform: scale(.92); filter: brightness(1.35); } 100% { transform: scale(1); filter: brightness(1); } }
+@media (max-width: 500px) and (orientation: portrait) { .btn-ritmo { top: auto; bottom: 16px; right: 50%; transform: translateX(50%); } .instrumentos { bottom: 80px; } }
+
+/* ===== Números ===== */
+.numero.grande { width: clamp(90px, 19vmin, 150px); height: clamp(110px, 23vmin, 180px); animation: aparecer .4s backwards; }
+.numero.grande .cifra { font-size: clamp(54px, 12vmin, 96px); }
+.numero.grande .puntos { font-size: clamp(12px, 2.4vmin, 18px); line-height: 1.1; text-align: center; }
+.premio-numeros { min-height: 60px; text-align: center; font-size: clamp(30px, 6vmin, 48px); }
+.premio-numeros span { display: inline-block; animation: aparecer .35s; }
+.juego-numeros .opciones { height: auto; }
+
+/* ===== Mamás y bebés ===== */
+.mama { position: relative; width: clamp(150px, 32vmin, 240px); aspect-ratio: 1; margin: 8px auto 0; border-radius: 50%; background: radial-gradient(circle, #fff 55%, #fbcfe8 56%); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 rgba(0,0,0,.08); }
+.mama .cara { font-size: clamp(90px, 20vmin, 150px); line-height: 1; }
+.mama.entra { animation: aparecer .5s; }
+.mama.feliz .cara { animation: festejoBoton .8s; display: inline-block; }
+.mama .corazones { position: absolute; top: -10px; left: 0; right: 0; text-align: center; font-size: 28px; }
+.mama.feliz .corazones { animation: notaSube 1.6s ease-out forwards; left: 50%; }
+.juego-mamas .opciones { height: auto; }
+.bebe { width: clamp(90px, 19vmin, 140px); aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: 0 7px 0 rgba(0,0,0,.12); animation: aparecer .4s backwards; position: relative; }
+.bebe span { font-size: clamp(38px, 8vmin, 60px); }
+.bebe::after { content: "🍼"; position: absolute; right: -4px; bottom: -4px; font-size: 24px; }
+
+/* ===== Rompecabezas ===== */
+.tablero { position: absolute; border-radius: 16px; background-size: cover; display: grid; grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--filas), 1fr); box-shadow: 0 0 0 6px #fff, 0 10px 20px rgba(0,0,0,.15); overflow: hidden; }
+.tablero::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.72); }
+.hueco-pieza { position: relative; border: 3px dashed rgba(100,116,139,.55); }
+.hueco-pieza.pista { animation: pistaBrilla 1.2s; }
+@keyframes pistaBrilla { 0%, 100% { background: transparent; } 30%, 70% { background: rgba(250,204,21,.65); } }
+.pieza { position: absolute; border-radius: 10px; box-shadow: 0 0 0 3px #fff, 0 6px 12px rgba(0,0,0,.25); touch-action: none; cursor: grab; transition: box-shadow .2s, border-radius .4s; z-index: 3; }
+.pieza.arrastrando { box-shadow: 0 0 0 3px #fde047, 0 16px 26px rgba(0,0,0,.3); }
+.pieza.puesta { box-shadow: 0 0 0 1px rgba(255,255,255,.6); border-radius: 2px; transition: left .15s, top .15s; }
+.pieza.completa { box-shadow: none; border-radius: 0; }
+
 /* ===== Vocales ===== */
 .dibujo { text-align: center; font-size: clamp(90px, 22vmin, 170px); line-height: 1.1; }
 .dibujo.entra { animation: aparecer .5s; }

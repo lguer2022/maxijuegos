@@ -146,6 +146,20 @@ const Sonido = (() => {
         }
       };
     },
+    chirrido()  { tono({ f: 1400, a: 900, dur: 0.5, tipo: 'sawtooth', vol: 0.06, filtro: 3000, vib: 80, vibF: 35 }); ruido({ dur: 0.45, vol: 0.2, filtro: 3000, q: 2 }); },
+    bonk()      { tono({ f: 700, a: 200, dur: 0.18, tipo: 'square', vol: 0.12, filtro: 1500 }); ruido({ dur: 0.06, vol: 0.3, filtro: 1200 }); },
+    asoma()     { tono({ f: 300, a: 600, dur: 0.12, tipo: 'triangle', vol: 0.08 }); },
+    // Instrumentos de la banda
+    bombo()     { tono({ f: 150, a: 45, dur: 0.35, vol: 0.6, ataque: 0.002 }); },
+    redoblante(){ ruido({ dur: 0.18, vol: 0.45, filtro: 1800, q: 0.6 }); tono({ f: 220, a: 160, dur: 0.1, tipo: 'triangle', vol: 0.15 }); },
+    platillo()  { ruido({ dur: 0.9, vol: 0.25, filtro: 7000, tipo: 'highpass', q: 0.5 }); },
+    hihat()     { ruido({ dur: 0.05, vol: 0.18, filtro: 8000, tipo: 'highpass' }); },
+    maracas()   { [0, 0.12].forEach(e => ruido({ dur: 0.07, vol: 0.25, filtro: 5000, tipo: 'highpass', en: e })); },
+    aplausos()  { for (let i = 0; i < 6; i++) ruido({ dur: 0.05, vol: 0.3, filtro: 1500, q: 0.8, en: i * 0.07 + Math.random() * 0.03 }); },
+    campana(f)  { tono({ f, dur: 1.4, vol: 0.18, ataque: 0.003 }); tono({ f: f * 2.76, dur: 0.8, vol: 0.06, ataque: 0.003 }); tono({ f: f * 5.4, dur: 0.4, vol: 0.03, ataque: 0.003 }); },
+    trompeta(f) { tono({ f, dur: 0.45, tipo: 'sawtooth', vol: 0.12, filtro: f * 4, ataque: 0.04, vib: 4, vibF: 6 }); },
+    guitarra(f) { tono({ f, dur: 0.9, tipo: 'triangle', vol: 0.25, ataque: 0.002 }); tono({ f: f * 2, dur: 0.4, tipo: 'sawtooth', vol: 0.04, filtro: 2500, ataque: 0.002 }); },
+    flauta(f)   { tono({ f, dur: 0.5, vol: 0.2, ataque: 0.05, vib: 5, vibF: 5 }); ruido({ dur: 0.08, vol: 0.05, filtro: f * 2, q: 3 }); },
     animal(id) { animales[id] && animales[id](); }
   };
 })();
