@@ -172,7 +172,7 @@ const Sonido = (() => {
     contar(n)   { tono({ f: 400 + n * 90, dur: 0.18, tipo: 'triangle', vol: 0.2 }); },
     nota(f)     { tono({ f, dur: 1.1, tipo: 'triangle', vol: 0.3, ataque: 0.005 }); tono({ f: f * 2, dur: 0.5, vol: 0.08, ataque: 0.005 }); },
     fanfarria() {
-      setTimeout(() => clip('festejo', 0.8), 350);   // "¡yeee!" de chicos, si está
+      setTimeout(() => clip('festejo', 0.4), 350);   // "¡yeee!" de chicos, si está
       const n = [[523, 0], [659, 0.12], [784, 0.24], [1047, 0.36], [784, 0.52], [1047, 0.64]];
       n.forEach(([f, e], i) => {
         const d = i === 5 ? 0.6 : 0.18;
