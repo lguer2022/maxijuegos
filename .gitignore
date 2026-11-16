@@ -1,3 +1,10 @@
-# Sonidos con licencia (Epidemic Sound): no se suben al repositorio público
-sonidos/
+# Los sonidos de Epidemic Sound tienen licencia: no se suben al repositorio público.
+# Sí se suben los de Freesound con licencia CC0 (dominio público).
+sonidos/*
+!sonidos/CREDITOS.txt
+!sonidos/efectos/
+!sonidos/animales/
+sonidos/animales/*
+!sonidos/animales/cerdo.mp3
+!sonidos/animales/mono.mp3
 .DS_Store

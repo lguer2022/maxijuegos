@@ -19,7 +19,7 @@ App.registrar({
       g.addEventListener('pointerdown', () => {
         if (g.dataset.roto) return;
         g.dataset.roto = '1';
-        api.sonido.pop();
+        api.sonido.globo();
         const [x, y] = api.centro(g);
         api.chispa(x, y, c);
         const t = getComputedStyle(g).transform;

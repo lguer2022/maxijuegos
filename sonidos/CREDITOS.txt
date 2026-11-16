@@ -1,0 +1,23 @@
+CRÉDITOS DE SONIDOS
+===================
+
+Sonidos de Freesound.org con licencia Creative Commons 0 (dominio público).
+No es obligatorio dar crédito, pero lo dejamos como agradecimiento.
+
+efectos/acierto.mp3   "Achievment Chimes.wav"      LaurenPonder         https://freesound.org/s/635665/
+efectos/error.mp3     "Boing 2"                    magnuswaker          https://freesound.org/s/540790/
+efectos/globo.mp3     "Balloon-Burst-07.wav"       Gniffelbaf           https://freesound.org/s/82121/
+efectos/burbuja.mp3   "UI Bubble Pop"              Qvantor              https://freesound.org/s/878245/
+efectos/bocina.mp3    "Bobby-Car Hooting"          HenryG               https://freesound.org/s/339788/
+efectos/frenada.mp3   "Tires Squeaking.aif"        RutgerMuller         https://freesound.org/s/104026/
+efectos/salto.mp3     "Public Domain Jump Sound"   qubodup              https://freesound.org/s/331381/
+efectos/masticar.mp3  "Apple Bite"                 AntumDeluge          https://freesound.org/s/584290/
+efectos/carta.mp3     "flipCard.wav"               Splashdust           https://freesound.org/s/84322/
+efectos/bonk.mp3      "bonk.wav"                   xela_sonitus         https://freesound.org/s/262703/
+efectos/festejo.mp3   "yay.mp3"                    Disarmenemyships     https://freesound.org/s/563845/
+animales/cerdo.mp3    "Pig Oink"                   qubodup              https://freesound.org/s/442906/
+animales/mono.mp3     "chimpanzee.wav"             Radio_fragola_gorizia https://freesound.org/s/400085/
+
+El resto de los sonidos de animales (vaca, perro, gato, pato, pollito, gallina,
+gallo, león, oveja, rana, elefante, caballo) son de Epidemic Sound, con licencia
+de suscripción: se usan dentro de la app, pero no se publican en el repositorio.

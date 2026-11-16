@@ -72,12 +72,18 @@ const Sonido = (() => {
 
   // ---------- Grabaciones reales de animales (carpeta sonidos/animales) ----------
   // Si un archivo no está, se usa el sonido sintetizado de abajo.
-  const CLIPS = ['vaca', 'perro', 'gato', 'pato', 'pollito', 'gallina', 'gallo', 'leon', 'oveja', 'rana', 'elefante', 'caballo', 'mono'];
+  const CLIPS = [
+    // animales (sonidos/animales/<nombre>.mp3)
+    ...['vaca', 'perro', 'gato', 'pato', 'pollito', 'gallina', 'gallo', 'leon', 'oveja', 'rana', 'elefante', 'caballo', 'mono', 'cerdo']
+      .map(id => [id, `sonidos/animales/${id}.mp3`]),
+    // efectos (sonidos/efectos/<nombre>.mp3)
+    ...['acierto', 'error', 'globo', 'burbuja', 'bocina', 'frenada', 'salto', 'masticar', 'carta', 'bonk', 'festejo']
+      .map(id => [id, `sonidos/efectos/${id}.mp3`])
+  ];
   const buffers = {}, audios = {};
   function cargarClips() {
     const web = location.protocol.startsWith('http');
-    CLIPS.forEach(id => {
-      const url = `sonidos/animales/${id}.mp3`;
+    CLIPS.forEach(([id, url]) => {
       if (web) {
         // en internet: Web Audio (más rápido y sin cortes)
         fetch(url)
@@ -139,16 +145,18 @@ const Sonido = (() => {
     },
     tono, ruido,
     click()     { tono({ f: 660, a: 990, dur: 0.08, tipo: 'triangle', vol: 0.2 }); },
-    pop()       { ruido({ dur: 0.08, vol: 0.5, filtro: 1500, q: 0.7 }); tono({ f: 500, a: 1400, dur: 0.09, vol: 0.25 }); },
-    bien()      { [523, 659, 784, 1047].forEach((f, i) => tono({ f, dur: 0.25, tipo: 'triangle', vol: 0.22, en: i * 0.09 })); },
-    boing()     { tono({ f: 320, a: 140, dur: 0.35, vol: 0.25, vib: 20, vibF: 12 }); },
-    voltear()   { tono({ f: 400, a: 700, dur: 0.1, tipo: 'triangle', vol: 0.15 }); },
+    globo()     { if (!clip('globo', 0.6)) this.pop(); },
+    pop()       { if (clip('burbuja', 0.8)) return;  ruido({ dur: 0.08, vol: 0.5, filtro: 1500, q: 0.7 }); tono({ f: 500, a: 1400, dur: 0.09, vol: 0.25 }); },
+    bien()      { if (clip('acierto', 0.8)) return;  [523, 659, 784, 1047].forEach((f, i) => tono({ f, dur: 0.25, tipo: 'triangle', vol: 0.22, en: i * 0.09 })); },
+    boing()     { if (clip('error', 0.7)) return;  tono({ f: 320, a: 140, dur: 0.35, vol: 0.25, vib: 20, vibF: 12 }); },
+    voltear()   { if (clip('carta', 0.8)) return;  tono({ f: 400, a: 700, dur: 0.1, tipo: 'triangle', vol: 0.15 }); },
     brillo()    { tono({ f: 1500 + Math.random() * 1500, dur: 0.12, vol: 0.05 }); },
     whoosh()    { ruido({ dur: 0.5, vol: 0.35, filtro: 800, q: 0.5 }); tono({ f: 200, a: 1200, dur: 0.4, vol: 0.06 }); },
-    masticar()  { [0, 0.18, 0.36].forEach(e => { ruido({ dur: 0.08, vol: 0.35, filtro: 900, en: e }); tono({ f: 220, a: 160, dur: 0.1, tipo: 'square', vol: 0.07, en: e, filtro: 800 }); }); },
+    masticar()  { if (clip('masticar', 1)) return;  [0, 0.18, 0.36].forEach(e => { ruido({ dur: 0.08, vol: 0.35, filtro: 900, en: e }); tono({ f: 220, a: 160, dur: 0.1, tipo: 'square', vol: 0.07, en: e, filtro: 800 }); }); },
     contar(n)   { tono({ f: 400 + n * 90, dur: 0.18, tipo: 'triangle', vol: 0.2 }); },
     nota(f)     { tono({ f, dur: 1.1, tipo: 'triangle', vol: 0.3, ataque: 0.005 }); tono({ f: f * 2, dur: 0.5, vol: 0.08, ataque: 0.005 }); },
     fanfarria() {
+      setTimeout(() => clip('festejo', 0.8), 350);   // "¡yeee!" de chicos, si está
       const n = [[523, 0], [659, 0.12], [784, 0.24], [1047, 0.36], [784, 0.52], [1047, 0.64]];
       n.forEach(([f, e], i) => {
         const d = i === 5 ? 0.6 : 0.18;
@@ -156,9 +164,9 @@ const Sonido = (() => {
         tono({ f: f / 2, dur: d, tipo: 'triangle', vol: 0.15, en: e });
       });
     },
-    salto()     { tono({ f: 300, a: 750, dur: 0.22, tipo: 'square', vol: 0.12, filtro: 2000 }); },
+    salto()     { if (clip('salto', 0.6)) return;  tono({ f: 300, a: 750, dur: 0.22, tipo: 'square', vol: 0.12, filtro: 2000 }); },
     choque()    { ruido({ dur: 0.25, vol: 0.4, filtro: 400, tipo: 'lowpass' }); tono({ f: 200, a: 90, dur: 0.3, tipo: 'triangle', vol: 0.25 }); },
-    bocina()    { [0, 0.28].forEach(e => { tono({ f: 392, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); tono({ f: 494, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); }); },
+    bocina()    { if (clip('bocina', 0.9)) return;  [0, 0.28].forEach(e => { tono({ f: 392, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); tono({ f: 494, dur: 0.22, tipo: 'square', vol: 0.09, en: e, filtro: 1800 }); }); },
     disparo()   { tono({ f: 900, a: 300, dur: 0.15, vol: 0.18 }); },
     pegar()     { tono({ f: 250, a: 200, dur: 0.08, tipo: 'triangle', vol: 0.18 }); },
     // Motor de auto continuo: devuelve { set(velocidad 0..1), parar() }
@@ -190,8 +198,8 @@ const Sonido = (() => {
         }
       };
     },
-    chirrido()  { tono({ f: 1400, a: 900, dur: 0.5, tipo: 'sawtooth', vol: 0.06, filtro: 3000, vib: 80, vibF: 35 }); ruido({ dur: 0.45, vol: 0.2, filtro: 3000, q: 2 }); },
-    bonk()      { tono({ f: 700, a: 200, dur: 0.18, tipo: 'square', vol: 0.12, filtro: 1500 }); ruido({ dur: 0.06, vol: 0.3, filtro: 1200 }); },
+    chirrido()  { if (clip('frenada', 0.6)) return;  tono({ f: 1400, a: 900, dur: 0.5, tipo: 'sawtooth', vol: 0.06, filtro: 3000, vib: 80, vibF: 35 }); ruido({ dur: 0.45, vol: 0.2, filtro: 3000, q: 2 }); },
+    bonk()      { if (clip('bonk', 0.8)) return;  tono({ f: 700, a: 200, dur: 0.18, tipo: 'square', vol: 0.12, filtro: 1500 }); ruido({ dur: 0.06, vol: 0.3, filtro: 1200 }); },
     asoma()     { tono({ f: 300, a: 600, dur: 0.12, tipo: 'triangle', vol: 0.08 }); },
     // Instrumentos de la banda
     bombo()     { tono({ f: 150, a: 45, dur: 0.35, vol: 0.6, ataque: 0.002 }); },
