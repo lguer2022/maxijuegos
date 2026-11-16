@@ -1,10 +1,7 @@
-# Los sonidos de Epidemic Sound tienen licencia: no se suben al repositorio público.
-# Sí se suben los de Freesound con licencia CC0 (dominio público).
+# Todos los sonidos del juego son de Freesound con licencia CC0 (ver sonidos/CREDITOS.txt).
+# Los archivos originales sueltos de la carpeta sonidos/ no se suben.
 sonidos/*
 !sonidos/CREDITOS.txt
 !sonidos/efectos/
 !sonidos/animales/
-sonidos/animales/*
-!sonidos/animales/cerdo.mp3
-!sonidos/animales/mono.mp3
 .DS_Store

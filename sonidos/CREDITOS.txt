@@ -17,7 +17,17 @@ efectos/bonk.mp3      "bonk.wav"                   xela_sonitus         https://
 efectos/festejo.mp3   "yay.mp3"                    Disarmenemyships     https://freesound.org/s/563845/
 animales/cerdo.mp3    "Pig Oink"                   qubodup              https://freesound.org/s/442906/
 animales/mono.mp3     "chimpanzee.wav"             Radio_fragola_gorizia https://freesound.org/s/400085/
+animales/vaca.mp3     "Cow moo #8"                 spurioustransients   https://freesound.org/s/513565/
+animales/perro.mp3    "Single Dog Bark"            kwahmah_02           https://freesound.org/s/277058/
+animales/gato.mp3     "cat meow"                   tuberatanka          https://freesound.org/s/110011/
+animales/pato.mp3     "Duck quacking.mp3"          DigPro120            https://freesound.org/s/558858/
+animales/pollito.mp3  "Chicks very young.wav"      AGFX                 https://freesound.org/s/43380/
+animales/gallina.mp3  "Chicken clucking"           Breviceps            https://freesound.org/s/456803/
+animales/gallo.mp3    "Rooster Crow 1"             BenjaminNelan        https://freesound.org/s/435508/
+animales/leon.mp3     "LION ROAR"                  Podcapocalipsis      https://freesound.org/s/559600/
+animales/oveja.mp3    "Sheep Baa"                  emilyws              https://freesound.org/s/414541/
+animales/rana.mp3     "SAPO - FROG"                Rildo3000            https://freesound.org/s/489899/
+animales/elefante.mp3 "Elephant sound"             ikbenraar            https://freesound.org/s/819668/
+animales/caballo.mp3  "horse's whinny"             Kubuzz               https://freesound.org/s/347036/
 
-El resto de los sonidos de animales (vaca, perro, gato, pato, pollito, gallina,
-gallo, león, oveja, rana, elefante, caballo) son de Epidemic Sound, con licencia
-de suscripción: se usan dentro de la app, pero no se publican en el repositorio.
+Todos los sonidos del juego son CC0: se pueden usar, modificar y publicar libremente.
