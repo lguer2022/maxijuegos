@@ -34,10 +34,10 @@ instrumentos/bombo.mp3       "Bass Kick drum Soft Hit.wav"   captain k man     h
 instrumentos/redoblante.mp3  "Accoustica_Snare.wav"          alexthegr81       https://freesound.org/s/256276/
 instrumentos/platillo.mp3    "crash Zildjian 16 inches"      Logicogonist      https://freesound.org/s/807998/
 instrumentos/campana.mp3     "Glockenspiel_46_f4_04"         cabled_mess       https://freesound.org/s/348924/
-instrumentos/trompeta.mp3    "single note - trumpet - B5"    fuannnakimochi    https://freesound.org/s/258107/
-instrumentos/guitarra.mp3    "Guitar Pluck"                  Baconation        https://freesound.org/s/592442/
-instrumentos/saxo.mp3        "Alto Sax C#5"                  totalaj           https://freesound.org/s/584383/
+instrumentos/trompeta.mp3    "Trumpet - staccato - E#5"      sgossner (VSCO 2) https://freesound.org/s/374125/
+instrumentos/guitarra.mp3    "string pluck (ukulele)"        Dalesome          https://freesound.org/s/352929/
+instrumentos/violin.mp3      "Solo Violin - pizzicato - F#5" sgossner (VSCO 2) https://freesound.org/s/373908/
 instrumentos/maracas.mp3     "shake"                         SamsterBirdies    https://freesound.org/s/368607/
-instrumentos/aplausos.mp3    "HAND CLAPS.wav"                stevielematt      https://freesound.org/s/538068/
+instrumentos/aplausos.mp3    "Kids clapping Plougras.wav"    johntrap          https://freesound.org/s/529694/
 
 Todos los sonidos del juego son CC0: se pueden usar, modificar y publicar libremente.

@@ -14,8 +14,8 @@ App.registrar({
       { e: '🪘', n: 'Redoblante', c: '#f97316', tocar: () => S.redoblante(), alt: '🥁' },
       { e: '🔔', n: 'Campana', c: '#eab308', tocar: () => S.campana(nota() * 2) },
       { e: '🎺', n: 'Trompeta', c: '#f59e0b', tocar: () => S.trompeta(nota()) },
-      { e: '🎸', n: 'Guitarra', c: '#22c55e', tocar: () => S.guitarra(nota() / 2) },
-      { e: '🎷', n: 'Saxo', c: '#06b6d4', tocar: () => S.flauta(nota() * 1.5) },
+      { e: '🎸', n: 'Guitarra', c: '#22c55e', tocar: () => S.guitarra(nota()) },
+      { e: '🎻', n: 'Violín', c: '#06b6d4', tocar: () => S.violin(nota()) },
       { e: '🪇', n: 'Maracas', c: '#3b82f6', tocar: () => S.maracas(), alt: '🎉' },
       { e: '👏', n: 'Aplausos', c: '#ec4899', tocar: () => S.aplausos() },
       { e: '💥', n: 'Platillo', c: '#a855f7', tocar: () => S.platillo() }

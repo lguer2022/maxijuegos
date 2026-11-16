@@ -227,17 +227,20 @@ button { font-family: inherit; cursor: pointer; border: none; color: inherit; }
 .premio-numeros span { display: inline-block; animation: aparecer .35s; }
 .juego-numeros .opciones { height: auto; }
 
-/* ===== Mamás y bebés ===== */
-.mama { position: relative; width: clamp(150px, 32vmin, 240px); aspect-ratio: 1; margin: 8px auto 0; border-radius: 50%; background: radial-gradient(circle, #fff 55%, #fbcfe8 56%); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 0 rgba(0,0,0,.08); }
-.mama .cara { font-size: clamp(90px, 20vmin, 150px); line-height: 1; }
-.mama.entra { animation: aparecer .5s; }
-.mama.feliz .cara { animation: festejoBoton .8s; display: inline-block; }
-.mama .corazones { position: absolute; top: -10px; left: 0; right: 0; text-align: center; font-size: 28px; }
-.mama.feliz .corazones { animation: notaSube 1.6s ease-out forwards; left: 50%; }
-.juego-mamas .opciones { height: auto; }
-.bebe { width: clamp(90px, 19vmin, 140px); aspect-ratio: 1; border-radius: 50%; background: #fff; box-shadow: 0 7px 0 rgba(0,0,0,.12); animation: aparecer .4s backwards; position: relative; }
-.bebe span { font-size: clamp(38px, 8vmin, 60px); }
-.bebe::after { content: "🍼"; position: absolute; right: -4px; bottom: -4px; font-size: 24px; }
+/* ===== Mamás y bebés (fotos) ===== */
+.mama-foto { width: clamp(150px, 34vmin, 260px); aspect-ratio: 1; margin: 6px auto 0; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: 0 0 0 8px #fff, 0 0 0 14px #fbcfe8, 0 10px 20px rgba(0,0,0,.15); display: flex; align-items: center; justify-content: center; }
+.mama-foto.entra { animation: aparecer .5s; }
+.foto-animal { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.foto-emoji { font-size: clamp(80px, 18vmin, 140px); line-height: 1; }
+.foto-emoji.chico { font-size: clamp(44px, 9vmin, 70px); }
+.juego-mamas .opciones { height: auto; padding-top: 26px; }
+.opcion-foto { width: clamp(110px, 27vmin, 210px); aspect-ratio: 1; border-radius: 26px; overflow: hidden; background: #fff; padding: 0; box-shadow: 0 0 0 5px #fff, 0 8px 0 5px rgba(0,0,0,.12); animation: aparecer .4s backwards; display: flex; align-items: center; justify-content: center; }
+.familia-junta { position: absolute; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; background: rgba(252,231,243,.85); animation: aparecerFondo .3s; pointer-events: none; }
+.familia-caja { position: relative; display: flex; align-items: center; gap: 12px; background: #fff; padding: 16px 16px 50px; border-radius: 30px; box-shadow: 0 12px 0 rgba(0,0,0,.1); animation: aparecer .5s; }
+.familia-caja .foto-animal, .familia-caja .foto-emoji { width: clamp(120px, 30vmin, 240px); height: clamp(120px, 30vmin, 240px); border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+.familia-caja .corazon { font-size: 44px; animation: latido .7s ease-in-out infinite; }
+.familia-nombre { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; font-size: clamp(18px, 3.6vmin, 28px); font-weight: 900; color: #be185d; }
+@keyframes aparecerFondo { from { opacity: 0; } to { opacity: 1; } }
 
 /* ===== Rompecabezas ===== */
 .tablero { position: absolute; border-radius: 16px; background-size: cover; display: grid; grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--filas), 1fr); box-shadow: 0 0 0 6px #fff, 0 10px 20px rgba(0,0,0,.15); overflow: hidden; }

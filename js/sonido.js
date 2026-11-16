@@ -80,10 +80,12 @@ const Sonido = (() => {
     ...['acierto', 'error', 'globo', 'burbuja', 'bocina', 'frenada', 'salto', 'masticar', 'carta', 'bonk', 'festejo']
       .map(id => [id, `sonidos/efectos/${id}.mp3`]),
     // instrumentos de la Banda (sonidos/instrumentos/<nombre>.mp3)
-    ...['bombo', 'redoblante', 'platillo', 'maracas', 'aplausos', 'campana', 'trompeta', 'guitarra', 'saxo']
+    ...['bombo', 'redoblante', 'platillo', 'maracas', 'aplausos', 'campana', 'trompeta', 'guitarra', 'violin']
       .map(id => [id, `sonidos/instrumentos/${id}.mp3`])
   ];
   const buffers = {}, audios = {};
+  // Nota (Hz) de cada grabación de instrumento, para afinarla
+  const BASE = { trompeta: 698, guitarra: 877, violin: 740 };
   function cargarClips() {
     const web = location.protocol.startsWith('http');
     CLIPS.forEach(([id, url]) => {
@@ -105,18 +107,28 @@ const Sonido = (() => {
   }
   // Toca la grabación si existe. Devuelve su duración en segundos (o 0 si no hay).
   // vel: velocidad de reproducción (cambia el tono: 2 = una octava más aguda)
-  function clip(id, vol = 0.9, vel = 1) {
+  // dura: si se indica, corta el sonido a esa cantidad de segundos (con un final suave)
+  function clip(id, vol = 0.9, vel = 1, dura = 0) {
     if (buffers[id]) {
       if (mudo) return buffers[id].duration;
       const c = ac(); if (!c) return 0;
       const s = c.createBufferSource(), g = c.createGain();
       s.buffer = buffers[id]; g.gain.value = vol; s.playbackRate.value = vel;
       s.connect(g).connect(salida(c));
-      s.start();
+      const t = c.currentTime;
+      s.start(t);
+      if (dura) {
+        g.gain.setValueAtTime(vol, t + Math.max(0, dura - 0.12));
+        g.gain.linearRampToValueAtTime(0.0001, t + dura);
+        s.stop(t + dura + 0.02);
+      }
       return buffers[id].duration;
     }
     if (audios[id]) {
-      if (!mudo) { const a = audios[id].cloneNode(); a.volume = vol; a.preservesPitch = false; a.playbackRate = vel; a.play().catch(() => {}); }
+      if (!mudo) {
+        const a = audios[id].cloneNode(); a.volume = vol; a.preservesPitch = false; a.playbackRate = vel; a.play().catch(() => {});
+        if (dura) setTimeout(() => a.pause(), dura * 1000);
+      }
       return audios[id].duration || 1.5;
     }
     return 0;
@@ -213,10 +225,10 @@ const Sonido = (() => {
     hihat()     { ruido({ dur: 0.05, vol: 0.18, filtro: 8000, tipo: 'highpass' }); },
     maracas()   { if (clip('maracas', 1)) return;  [0, 0.12].forEach(e => ruido({ dur: 0.07, vol: 0.25, filtro: 5000, tipo: 'highpass', en: e })); },
     aplausos()  { if (clip('aplausos', 1)) return;  for (let i = 0; i < 6; i++) ruido({ dur: 0.05, vol: 0.3, filtro: 1500, q: 0.8, en: i * 0.07 + Math.random() * 0.03 }); },
-    campana(f)  { if (clip('campana', 0.7, f * 2 / 2794)) return;  tono({ f, dur: 1.4, vol: 0.18, ataque: 0.003 }); tono({ f: f * 2.76, dur: 0.8, vol: 0.06, ataque: 0.003 }); tono({ f: f * 5.4, dur: 0.4, vol: 0.03, ataque: 0.003 }); },
-    trompeta(f) { if (clip('trompeta', 0.7, f * 2 / 988)) return;  tono({ f, dur: 0.45, tipo: 'sawtooth', vol: 0.12, filtro: f * 4, ataque: 0.04, vib: 4, vibF: 6 }); },
-    guitarra(f) { if (clip('guitarra', 0.7, f / 246)) return;  tono({ f, dur: 0.9, tipo: 'triangle', vol: 0.25, ataque: 0.002 }); tono({ f: f * 2, dur: 0.4, tipo: 'sawtooth', vol: 0.04, filtro: 2500, ataque: 0.002 }); },
-    flauta(f)   { if (clip('saxo', 0.7, f / 582)) return;  tono({ f, dur: 0.5, vol: 0.2, ataque: 0.05, vib: 5, vibF: 5 }); ruido({ dur: 0.08, vol: 0.05, filtro: f * 2, q: 3 }); },
+    campana(f)  { if (clip('campana', 0.7, f * 2 / 2794, 1.2)) return;  tono({ f, dur: 1.4, vol: 0.18, ataque: 0.003 }); tono({ f: f * 2.76, dur: 0.8, vol: 0.06, ataque: 0.003 }); tono({ f: f * 5.4, dur: 0.4, vol: 0.03, ataque: 0.003 }); },
+    trompeta(f) { if (clip('trompeta', 0.8, f * 2 / BASE.trompeta, 0.45)) return;  tono({ f, dur: 0.45, tipo: 'sawtooth', vol: 0.12, filtro: f * 4, ataque: 0.04, vib: 4, vibF: 6 }); },
+    guitarra(f) { if (clip('guitarra', 0.8, f * 2 / BASE.guitarra, 0.7)) return;  tono({ f, dur: 0.9, tipo: 'triangle', vol: 0.25, ataque: 0.002 }); tono({ f: f * 2, dur: 0.4, tipo: 'sawtooth', vol: 0.04, filtro: 2500, ataque: 0.002 }); },
+    violin(f)   { if (clip('violin', 0.9, f * 2 / BASE.violin, 0.5)) return;  tono({ f, dur: 0.5, vol: 0.2, ataque: 0.05, vib: 5, vibF: 5 }); ruido({ dur: 0.08, vol: 0.05, filtro: f * 2, q: 3 }); },
     // Sonido de un animal: grabación real si está, si no, sintetizado.
     // Devuelve cuánto dura (segundos), para que la voz hable después.
     animal(id) {

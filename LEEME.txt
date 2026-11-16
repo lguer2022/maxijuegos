@@ -36,7 +36,8 @@ LOS JUEGOS
  18. Atrapar ....... mover la canasta para atrapar la fruta (y esquivar piedras)
  19. Banda ......... 9 instrumentos, ritmo de fondo y animales que bailan
  20. Números ....... "¿Dónde está el cuatro?" (del 1 al 5, después hasta el 10)
- 21. Mamás y bebés . encontrar el bebé de cada mamá
+ 21. Mamás y bebés . fotos reales: encontrar el bebé de cada mamá (y al revés)
+                     Fotos en imagenes/mamas/ (créditos en imagenes/CREDITOS.txt)
  22. Rompecabezas .. arrastrar las piezas a su lugar (4, 6 y 9 piezas)
 
 SONIDOS
@@ -46,7 +47,7 @@ SONIDOS
     sonidos/efectos/   acierto, error, globo, burbuja, bocina, frenada, salto,
                        masticar, carta, bonk, festejo
     sonidos/instrumentos/ bombo, redoblante, platillo, maracas, aplausos, campana,
-                       trompeta, guitarra, saxo (los que tienen notas se afinan solos)
+                       trompeta, guitarra (ukelele), violín (los que tienen notas se afinan solos)
   Si falta alguno, el juego usa un sonido hecho por la compu.
   Para cambiar un sonido, reemplazá el .mp3 con el mismo nombre.
 
